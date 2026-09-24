@@ -5,7 +5,8 @@ import { useAuth } from '../../store/auth'
 
 export function LoginScreen() {
   const { clientId, signIn } = useAuth()
-  const btnRef = useRef<HTMLDivElement>(null)
+  const mountRef = useRef<HTMLDivElement>(null)
+  const renderedRef = useRef(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -21,9 +22,13 @@ export function LoginScreen() {
       try {
         await loadGoogleSdk()
         if (cancelled) return
-        if (!btnRef.current) return
+        const mount = mountRef.current
+        if (!mount) return
+        // clear any prior GIS nodes (StrictMode double-effect / remount)
+        mount.replaceChildren()
+        renderedRef.current = true
         renderGoogleButton(
-          btnRef.current,
+          mount,
           clientId,
           (user) => signIn(user),
           (msg) => {
@@ -63,10 +68,14 @@ export function LoginScreen() {
             <div className="text-dim mt-1">{'// akses terbatas — sign in dulu ya'}</div>
           </div>
 
-          <div ref={btnRef} className="flex justify-center min-h-11">
+          {/* loading is a SIBLING of the GIS mount node — React never owns GIS children */}
+          <div className="flex justify-center min-h-11">
             {loading && !error && (
-              <span className="text-[11px] text-dim animate-pulse">loading google sign-in…</span>
+              <span className="text-[11px] text-dim animate-pulse self-center">
+                loading google sign-in…
+              </span>
             )}
+            <div ref={mountRef} />
           </div>
 
           {error && <p className="text-xs text-danger text-center break-words">{error}</p>}
