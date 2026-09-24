@@ -85,7 +85,16 @@ export function LoginScreen() {
           </p>
         </div>
 
-        <p className="text-center text-[10px] text-muted">v0.1.0</p>
+        <p className="text-center text-[10px] text-muted leading-relaxed">
+          v0.1.0 ·{' '}
+          <a href="./privacy.html" className="underline underline-offset-2 hover:text-accent" target="_blank" rel="noreferrer">
+            privacy
+          </a>{' '}
+          ·{' '}
+          <a href="./terms.html" className="underline underline-offset-2 hover:text-accent" target="_blank" rel="noreferrer">
+            terms
+          </a>
+        </p>
       </div>
     </div>
   )

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index,follow" />
+    <title>Terms of Service — Rootine</title>
+    <meta name="description" content="Syarat &amp; Ketentuan penggunaan Rootine." />
+    <style>
+      :root {
+        --bg: #0a0f0a;
+        --panel: #101810;
+        --fg: #b8f5c8;
+        --dim: #5a8a6a;
+        --accent: #33ff66;
+        --border: #1a2e1f;
+        --muted: #3d5c48;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", monospace;
+        font-size: 14px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+      }
+      header {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+      h1 {
+        color: var(--accent);
+        font-size: 1.15rem;
+        margin: 0 0 0.35rem;
+      }
+      .meta { color: var(--dim); font-size: 12px; }
+      h2 {
+        color: var(--accent);
+        font-size: 0.95rem;
+        margin: 1.75rem 0 0.5rem;
+      }
+      h2::before { content: "$ "; color: var(--muted); }
+      p, li { color: var(--fg); }
+      p { margin: 0.5rem 0; }
+      ul { padding-left: 1.25rem; margin: 0.4rem 0; }
+      li { margin: 0.25rem 0; }
+      a { color: var(--accent); }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 1rem 1.1rem;
+        margin: 1rem 0;
+      }
+      .back {
+        display: inline-block;
+        margin-top: 2rem;
+        font-size: 12px;
+        color: var(--dim);
+        text-decoration: none;
+      }
+      .back:hover { color: var(--accent); }
+      code {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 0.05rem 0.3rem;
+        border-radius: 3px;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>rootine — terms of service</h1>
+        <div class="meta">terakhir diperbarui: 24 September 2026</div>
+      </header>
+
+      <p>
+        Syarat &amp; Ketentuan ini ("Syarat") mengatur penggunaan kamu atas aplikasi
+        <strong>Rootine</strong> ("Layanan") yang tersedia di
+        <code>https://ibeeng.github.io/habit-tracker/</code>.
+      </p>
+
+      <div class="panel">
+        <strong>Dengan mengakses atau menggunakan Rootine, kamu dianggap telah membaca
+        dan menyetujui Syarat ini.</strong> Jika tidak setuju, mohon jangan gunakan Layanan.
+      </div>
+
+      <h2>1. Deskripsi Layanan</h2>
+      <p>
+        Rootine adalah aplikasi web (PWA) untuk melacak habit / kebiasaan harian —
+        termasuk streak, statistik, shield, dan gamifikasi (XP, level, achievement).
+        Data utama disimpan secara lokal di browser kamu. Fitur login Google dan
+        sync (Google Drive / Telegram) bersifat opsional.
+      </p>
+
+      <h2>2. Akun &amp; Login</h2>
+      <ul>
+        <li>Login dilakukan menggunakan akun Google kamu (Google Sign-In).</li>
+        <li>Kamu bertanggung jawab menjaga keamanan akun Google kamu sendiri.</li>
+        <li>Kami tidak menyimpan password — kami hanya menerima token identitas dari Google.</li>
+        <li>Kamu harus berusia minimal 13 tahun (atau sesuai usia minimum di yurisdiksimu) untuk menggunakan Layanan.</li>
+      </ul>
+
+      <h2>3. Data &amp; Tanggung Jawab Kamu</h2>
+      <ul>
+        <li>
+          Data habit tersimpan di <code>localStorage</code> browser kamu. Menghapus data browser,
+          menggunakan perangkat/browser lain, atau mode privat dapat menghilangkan data lokal.
+        </li>
+        <li>
+          Kamu bertanggung jawab atas backup data kamu sendiri (fitur export/import JSON,
+          dan sync opsional ke Google Drive / Telegram).
+        </li>
+        <li>
+          Jika kamu mengaktifkan sync ke Telegram dengan bot milikmu sendiri, token bot
+          disimpan di browser kamu — jangan bagikan token tersebut ke orang lain.
+        </li>
+        <li>
+          Kami tidak bertanggung jawab atas kehilangan data yang terjadi akibat kelalaian
+          backup, penghapusan browser, atau perubahan pada penyimpanan sync milikmu.
+        </li>
+      </ul>
+
+      <h2>4. Penggunaan yang dilarang</h2>
+      <p>Kamu tidak boleh:</p>
+      <ul>
+        <li>Menggunakan Layanan untuk tujuan ilegal atau melanggar hukum yang berlaku</li>
+        <li>Mencoba mengakses, memanipulasi, atau merusak Layanan / infrastruktur kami</li>
+        <li>Menyalahgunakan fitur login atau sync (mis. mengganggu API Google / Telegram melalui aplikasi ini)</li>
+        <li>Melakukan scraping, scraping balik, atau penggunaan otomatis yang merugikan</li>
+        <li>Menggunakan Layanan untuk menyebarkan konten yang melanggar hak pihak ketiga</li>
+      </ul>
+
+      <h2>5. Hak kekayaan intelektual</h2>
+      <p>
+        Kode sumber aplikasi ini tersedia di
+        <a href="https://github.com/ibeeng/habit-tracker" target="_blank" rel="noreferrer">GitHub</a>
+        sesuai dengan lisensi yang tercantum di repositori. Nama "Rootine", ikon, dan
+        materi branding lainnya tidak boleh digunakan tanpa izin, kecuali diizinkan lisensi.
+        Konten / habit yang kamu masukkan tetap milik kamu.
+      </p>
+
+      <h2>6. Layanan pihak ketiga</h2>
+      <p>
+        Layanan ini bergantung pada pihak ketiga (Google Sign-In, Google Drive, Telegram,
+        GitHub Pages). Penggunaan pihak ketiga tunduk pada ketentuan mereka masing-masing.
+        Kami tidak bertanggung jawab atas ketersediaan atau kebijakan pihak ketiga tersebut.
+      </p>
+      <ul>
+        <li>Google Privacy: <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">policies.google.com/privacy</a></li>
+        <li>Google Terms: <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">policies.google.com/terms</a></li>
+        <li>Telegram Terms: <a href="https://telegram.org/tos" target="_blank" rel="noreferrer">telegram.org/tos</a></li>
+      </ul>
+
+      <h2>7. Disclaimer &amp; batasan tanggung jawab</h2>
+      <p>
+        Layanan disediakan <strong>"sebagaimana adanya"</strong> tanpa jaminan apa pun,
+        baik tersurat maupun tersirat. Sejauh diizinkan hukum:
+      </p>
+      <ul>
+        <li>Kami tidak menjamin Layanan bebas dari gangguan, kesalahan, atau keamanan mutlak</li>
+        <li>
+          Kami tidak bertanggung jawab atas kerugian tidak langsung, insidental, khusus,
+          konsekuensial, atau kehilangan data yang timbul dari penggunaan atau ketidakmampuan
+          menggunakan Layanan
+        </li>
+        <li>
+          Total tanggung jawab kami, sejauh diizinkan hukum, dibatasi pada kerugian langsung
+          yang terbukti — dan untuk Layanan gratis, maksimum sebesar Rp 0 (nol rupiah)
+        </li>
+      </ul>
+
+      <h2>8. Perubahan Syarat</h2>
+      <p>
+        Kami dapat memperbarui Syarat ini sewaktu-waktu. Tanggal "terakhir diperbarui"
+        mencerminkan versi terbaru. Penggunaan berkelanjutan setelah perubahan berarti
+        kamu menerima versi yang diperbarui.
+      </p>
+
+      <h2>9. Pengakhiran</h2>
+      <p>
+        Kami dapat menghentikan atau membatasi akses kamu ke Layanan jika kamu melanggar
+        Syarat ini. Kamu dapat berhenti menggunakan Layanan kapan saja (sign out + hapus data).
+      </p>
+
+      <h2>10. Hukum yang berlaku</h2>
+      <p>
+        Syarat ini tunduk pada hukum Republik Indonesia, tanpa mengesampingkan ketentuan
+        perlindungan konsumen yang berlaku di yurisdiksimu.
+      </p>
+
+      <h2>11. Kontak</h2>
+      <p>
+        Pertanyaan mengenai Syarat ini? Buka
+        <a href="https://github.com/ibeeng/habit-tracker/issues" target="_blank" rel="noreferrer">issue di GitHub</a>
+        atau hubungi <a href="https://github.com/ibeeng" target="_blank" rel="noreferrer">@ibeeng</a>.
+      </p>
+
+      <a class="back" href="./">← kembali ke rootine</a>
+    </div>
+  </body>
+</html>

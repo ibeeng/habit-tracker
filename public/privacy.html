@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index,follow" />
+    <title>Privacy Policy — Rootine</title>
+    <meta name="description" content="Kebijakan Privasi Rootine — bagaimana data kamu disimpan dan diproses." />
+    <style>
+      :root {
+        --bg: #0a0f0a;
+        --panel: #101810;
+        --fg: #b8f5c8;
+        --dim: #5a8a6a;
+        --accent: #33ff66;
+        --border: #1a2e1f;
+        --muted: #3d5c48;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", monospace;
+        font-size: 14px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+      }
+      header {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+      h1 {
+        color: var(--accent);
+        font-size: 1.15rem;
+        margin: 0 0 0.35rem;
+      }
+      .meta { color: var(--dim); font-size: 12px; }
+      h2 {
+        color: var(--accent);
+        font-size: 0.95rem;
+        margin: 1.75rem 0 0.5rem;
+      }
+      h2::before { content: "$ "; color: var(--muted); }
+      p, li { color: var(--fg); }
+      p { margin: 0.5rem 0; }
+      ul { padding-left: 1.25rem; margin: 0.4rem 0; }
+      li { margin: 0.25rem 0; }
+      a { color: var(--accent); }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 1rem 1.1rem;
+        margin: 1rem 0;
+      }
+      .back {
+        display: inline-block;
+        margin-top: 2rem;
+        font-size: 12px;
+        color: var(--dim);
+        text-decoration: none;
+      }
+      .back:hover { color: var(--accent); }
+      code {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 0.05rem 0.3rem;
+        border-radius: 3px;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>rootine — privacy policy</h1>
+        <div class="meta">terakhir diperbarui: 24 September 2026</div>
+      </header>
+
+      <p>
+        Kebijakan Privasi ini menjelaskan bagaimana <strong>Rootine</strong>
+        ("kami") memproses informasi saat kamu menggunakan aplikasi habit tracker kami
+        yang tersedia di <code>https://ibeeng.github.io/habit-tracker/</code> ("Layanan").
+      </p>
+
+      <div class="panel">
+        <strong>Ringkasan singkat:</strong>
+        <ul>
+          <li>Data habit disimpan di <em>browser kamu sendiri</em> (localStorage) — bukan di server kami.</li>
+          <li>Login pakai Google hanya untuk verifikasi identitas — kami tidak menyimpan password.</li>
+          <li>Kami <strong>tidak menjual</strong> data kamu ke pihak mana pun.</li>
+          <li>Sync (Google Drive / Telegram) bersifat <strong>opsional</strong> dan hanya aktif jika kamu mengaktifkannya.</li>
+        </ul>
+      </div>
+
+      <h2>1. Informasi yang kami kumpulkan</h2>
+      <p><strong>a. Saat login dengan Google</strong></p>
+      <ul>
+        <li>Nama tampilan, alamat email, dan URL foto profil (jika tersedia)</li>
+        <li>Identifier akun Google (sub) — untuk membedakan akun</li>
+      </ul>
+      <p>Kami <strong>tidak</strong> menerima atau menyimpan password Google kamu.</p>
+
+      <p><strong>b. Data habit (lokal)</strong></p>
+      <ul>
+        <li>Nama habit, jadwal, progres, streak, XP, shield, preferensi tema</li>
+        <li>Disimpan di <code>localStorage</code> browser pada perangkat kamu</li>
+        <li>Tidak dikirim ke server Rootine</li>
+      </ul>
+
+      <p><strong>c. Jika kamu mengaktifkan sync (opsional)</strong></p>
+      <ul>
+        <li>
+          <strong>Google Drive:</strong> file JSON habit disimpan di folder privat
+          <em>appDataFolder</em> akun Google kamu. Kami meminta izin scope
+          <code>drive.appdata</code> — hanya bisa mengakses file yang dibuat oleh aplikasi ini.
+        </li>
+        <li>
+          <strong>Telegram:</strong> jika kamu menghubungkan bot Telegram milikmu sendiri,
+          data habit dikirim sebagai file JSON ke chat bot tersebut. Token bot disimpan lokal di browser kamu.
+        </li>
+      </ul>
+
+      <h2>2. Cara kami menggunakan informasi</h2>
+      <ul>
+        <li>Menampilkan dan mengelola habit kamu</li>
+        <li>Menjaga sesi login tetap aktif</li>
+        <li>Menyinkronkan data antar perangkat — hanya jika kamu aktifkan fitur sync</li>
+      </ul>
+
+      <h2>3. Penyimpanan &amp; keamanan</h2>
+      <ul>
+        <li>Data habit utama: localStorage browser (perangkat)</li>
+        <li>Sesi login: localStorage browser (token kedaluwarsa mengikuti token Google)</li>
+        <li>Data sync: di penyimpanan milik kamu sendiri (Google Drive / Telegram), bukan server kami</li>
+        <li>Kami tidak mengoperasikan basis data server yang menyimpan data habit kamu</li>
+      </ul>
+
+      <h2>4. Berbagi data</h2>
+      <p>
+        Kami tidak menjual, menyewakan, atau membagikan data pribadi kamu kepada pengiklan,
+        pihak ketiga untuk tujuan pemasaran, atau pihak lain — kecuali:
+      </p>
+      <ul>
+        <li>Kamu secara eksplisit mengaktifkan sync ke Google Drive / Telegram</li>
+        <li>Diwajibkan oleh hukum yang berlaku</li>
+      </ul>
+
+      <h2>5. Layanan pihak ketiga</h2>
+      <ul>
+        <li>
+          <strong>Google Sign-In (Google Identity Services)</strong> — untuk login.
+          Kebijakan privasi Google: <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">policies.google.com/privacy</a>
+        </li>
+        <li>
+          <strong>Google Drive API</strong> — hanya jika kamu mengaktifkan sync Drive
+        </li>
+        <li>
+          <strong>Telegram Bot API</strong> — hanya jika kamu menghubungkan bot Telegram
+        </li>
+        <li>
+          <strong>GitHub Pages</strong> — hosting statis aplikasi ini
+        </li>
+      </ul>
+
+      <h2>6. Hak kamu</h2>
+      <ul>
+        <li>Menghapus data habit: menu <code>⋮ → reset data</code> di aplikasi</li>
+        <li>Menghapus backup JSON: hapus file dari Google Drive / chat Telegram kamu</li>
+        <li>Memutus sync: menu sync → <code>disconnect</code></li>
+        <li>Menarik izin Google: <a href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">myaccount.google.com/permissions</a></li>
+        <li>Menghapus akun / sesi: tombol <code>sign out</code></li>
+      </ul>
+
+      <h2>7. Data anak</h2>
+      <p>
+        Layanan ini tidak ditujukan untuk anak di bawah 13 tahun. Kami tidak dengan sengaja
+        mengumpulkan data anak.
+      </p>
+
+      <h2>8. Perubahan kebijakan ini</h2>
+      <p>
+        Kami dapat memperbarui Kebijakan Privasi dari waktu ke waktu. Tanggal "terakhir diperbarui"
+        akan selalu menampilkan versi terbaru. Perubahan materiil akan ditampilkan di aplikasi.
+      </p>
+
+      <h2>9. Kontak</h2>
+      <p>
+        Pertanyaan soal privasi? Buka issue di
+        <a href="https://github.com/ibeeng/habit-tracker/issues" target="_blank" rel="noreferrer">github.com/ibeeng/habit-tracker/issues</a>
+        atau hubungi kami melalui GitHub (<a href="https://github.com/ibeeng" target="_blank" rel="noreferrer">@ibeeng</a>).
+      </p>
+
+      <a class="back" href="./">← kembali ke rootine</a>
+    </div>
+  </body>
+</html>
