@@ -87,24 +87,29 @@ export function SyncModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 fade-in"
+      className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 fade-in overflow-y-auto overscroll-contain modal-open"
       onClick={close}
     >
       <div
-        className="bg-panel border border-border rounded-t-md sm:rounded-sm max-w-md w-full p-4 sm:p-5 shadow-2xl max-h-[85dvh] overflow-y-auto"
+        className="bg-panel border border-border rounded-md sm:rounded-sm max-w-md w-full shadow-2xl flex flex-col my-auto"
         onClick={(e) => e.stopPropagation()}
-        style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+        style={{ maxHeight: 'min(90dvh, calc(100dvh - 1.5rem))' }}
       >
-        <div className="flex items-center justify-between mb-4">
+        {/* header outside scroll — always visible on mobile */}
+        <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border shrink-0">
           <h2 className="text-accent font-bold text-sm">
             {view === 'status' ? '$ sync --telegram' : '$ sync --setup'}
             <span className="cursor-blink">_</span>
           </h2>
-          <button onClick={close} className="text-dim hover:text-fg p-1" aria-label="close">
+          <button onClick={close} className="text-dim hover:text-fg p-1 -m-1" aria-label="close">
             <X className="w-4 h-4" />
           </button>
         </div>
 
+        <div
+          className="px-4 py-4 overflow-y-auto overscroll-contain"
+          style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+        >
         {(localError || error) && (
           <p className="text-xs text-danger mb-3 border border-danger/40 bg-danger/10 rounded-sm px-2 py-1.5">
             {localError ?? error}
@@ -247,6 +252,7 @@ export function SyncModal() {
             </button>
           </div>
         )}
+        </div>
       </div>
     </div>
   )

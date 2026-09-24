@@ -83,23 +83,29 @@ export function HabitForm() {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto overscroll-contain fade-in"
+      className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto overscroll-contain fade-in modal-open"
       onClick={close}
     >
       <form
         onSubmit={submit}
         onClick={(e) => e.stopPropagation()}
-        className="bg-panel border border-border rounded-sm w-full max-w-lg p-4 sm:p-5 shadow-2xl my-4 sm:my-8 max-h-[min(92dvh,900px)] overflow-y-auto overscroll-contain"
+        className="bg-panel border border-border rounded-md sm:rounded-sm w-full max-w-lg shadow-2xl my-auto flex flex-col"
+        style={{ maxHeight: 'min(92dvh, calc(100dvh - 1.5rem))' }}
       >
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border shrink-0">
           <h2 className="text-accent font-bold text-sm">
             $ {editing ? 'habit --edit' : 'habit --new'}
             <span className="cursor-blink">_</span>
           </h2>
-          <button type="button" onClick={close} className="text-dim hover:text-fg p-1">
+          <button type="button" onClick={close} className="text-dim hover:text-fg p-1 -m-1">
             <X className="w-4 h-4" />
           </button>
         </div>
+
+        <div
+          className="px-4 py-4 overflow-y-auto overscroll-contain"
+          style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+        >
 
         <label className="block mb-3">
           <span className="label-caps">name</span>
@@ -317,7 +323,9 @@ export function HabitForm() {
           </div>
         </div>
 
-        <div className="flex gap-2 justify-end border-t border-border pt-3">
+        </div>
+
+        <div className="flex gap-2 justify-end border-t border-border px-4 py-3 shrink-0" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
           <button
             type="button"
             onClick={close}

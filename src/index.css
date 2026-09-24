@@ -83,6 +83,11 @@ body {
   }
 }
 
+/* lock background scroll while a modal is open */
+body:has(.modal-open) {
+  overflow: hidden;
+}
+
 ::selection {
   background: var(--accent);
   color: var(--bg);
