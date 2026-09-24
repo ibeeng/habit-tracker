@@ -50,9 +50,9 @@ export function TodayView() {
           <pre className="mt-4 text-[10px] sm:text-[11px] text-muted leading-tight overflow-x-auto max-w-full">{`
                  _   _
  _ __ ___   ___ | |_(_)_ __   ___   version 0.1.0
-| '__/ _ \\ / _ \\| __| | '_ \\ / _ \\  local-first
-| | | (_) | (_) | |_| | | | |  __/  no account · no cloud
-|_|  \\___/ \\___/ \\__|_|_| |_|\\___|  your data stays here
+| '__/ _ \\ / _ \\| __| | '_ \\ / _ \\
+| | | (_) | (_) | |_| | | | |  __/
+|_|  \\___/ \\___/ \\__|_|_| |_|\\___|
 `}</pre>
         </Panel>
       </div>

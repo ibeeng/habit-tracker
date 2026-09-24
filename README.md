@@ -1,6 +1,6 @@
 # Rootine
 
-Habit tracker terminal-style — local-first PWA. Ikon: lucide Sprout (ISC).
+Habit tracker terminal-style — PWA. Ikon: lucide Sprout (ISC).
 
 **Live:** https://ibeeng.github.io/habit-tracker/
 

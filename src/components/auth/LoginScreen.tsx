@@ -57,7 +57,7 @@ export function LoginScreen() {
             <Sprout className="w-6 h-6 text-accent" />
             <span className="text-2xl font-bold text-accent tracking-tight">rootine</span>
           </div>
-          <p className="text-xs text-dim">// terminal habit tracker — local-first PWA</p>
+          <p className="text-xs text-dim">// terminal habit tracker PWA</p>
         </div>
 
         <div className="border border-border bg-panel rounded-sm p-5 space-y-4">
@@ -81,11 +81,11 @@ export function LoginScreen() {
           {error && <p className="text-xs text-danger text-center break-words">{error}</p>}
 
           <p className="text-[10px] text-muted text-center leading-relaxed">
-            data habit tetap di browser kamu · tidak dikirim ke server
+            data disimpan lokal di browser kamu
           </p>
         </div>
 
-        <p className="text-center text-[10px] text-muted">v0.1.0 · no account · no cloud</p>
+        <p className="text-center text-[10px] text-muted">v0.1.0</p>
       </div>
     </div>
   )
