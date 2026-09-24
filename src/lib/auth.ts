@@ -22,11 +22,18 @@ interface GoogleAccountsId {
   disableAutoSelect: () => void
 }
 
+interface GoogleTokenClient {
+  requestAccessToken: (opts?: { prompt?: string }) => void
+}
+
 declare global {
   interface Window {
     google?: {
       accounts: {
         id: GoogleAccountsId
+        oauth2?: {
+          initTokenClient: (cfg: Record<string, unknown>) => GoogleTokenClient
+        }
       }
     }
   }

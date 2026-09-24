@@ -47,6 +47,7 @@ interface HabitsContextValue {
   deleteRoutine: (id: string) => void
   exportJson: () => string
   importJson: (json: string) => void
+  applyRemoteState: (next: AppState) => void
   resetAll: () => void
 }
 
@@ -304,6 +305,10 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
     [toast],
   )
 
+  const applyRemoteState = useCallback((next: AppState) => {
+    setState(next)
+  }, [])
+
   const resetAll = useCallback(() => {
     localStorage.removeItem('init-habits:v1')
     setState(loadState())
@@ -332,6 +337,7 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
     deleteRoutine,
     exportJson,
     importJson,
+    applyRemoteState,
     resetAll,
   }
 

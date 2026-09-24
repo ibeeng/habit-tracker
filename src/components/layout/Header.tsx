@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Moon, Sun, Download, Upload, Plus, Sprout, MoreVertical, LogOut } from 'lucide-react'
+import { Moon, Sun, Download, Upload, Plus, Sprout, MoreVertical, LogOut, Cloud, RefreshCw } from 'lucide-react'
 import { useHabits, type Tab } from '../../store/useHabits'
 import { useAuth } from '../../store/auth'
+import { useSync } from '../../store/sync'
+import { SyncModal } from '../sync/SyncModal'
 import { THEMES } from '../../themes'
 import { levelInfo } from '../../lib/xp'
 import { isoToday, formatDate } from '../../lib/dates'
@@ -17,6 +19,7 @@ export function Header() {
   const { tab, setTab, state, setTheme, setOpenForm, exportJson, importJson, resetAll } =
     useHabits()
   const { user, signOut } = useAuth()
+  const { settings: syncSettings, status: syncStatus, setModalOpen: setSyncOpen, lastSyncAt } = useSync()
   const [themeOpen, setThemeOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const lvl = levelInfo(state.xp)
@@ -94,6 +97,37 @@ export function Header() {
           <span className="text-[11px] text-warn tnum" title="shields">
             ◆{state.shields}
           </span>
+
+          {/* sync */}
+          <button
+            onClick={() => setSyncOpen(true)}
+            className={cn(
+              'p-1.5 rounded-sm border transition-colors',
+              syncSettings
+                ? 'border-accent/50 text-accent hover:border-accent'
+                : 'border-border text-dim hover:text-accent hover:border-accent',
+            )}
+            title={
+              syncSettings
+                ? `sync · ${syncSettings.provider}${
+                    lastSyncAt ? ` · last ${new Date(lastSyncAt).toLocaleTimeString()}` : ''
+                  }`
+                : 'sync — belum diatur'
+            }
+            aria-label="sync"
+          >
+            {syncStatus === 'syncing' ? (
+              <RefreshCw className="w-4 h-4 animate-spin" />
+            ) : (
+              <Cloud
+                className={cn(
+                  'w-4 h-4',
+                  syncSettings && syncStatus !== 'error' && 'text-success',
+                  syncStatus === 'error' && 'text-danger',
+                )}
+              />
+            )}
+          </button>
 
           {/* theme */}
           <div className="relative">
@@ -206,6 +240,8 @@ export function Header() {
           </span>
         </span>
       </div>
+
+      <SyncModal />
     </header>
   )
 }

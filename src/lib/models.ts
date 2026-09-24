@@ -59,6 +59,8 @@ export interface AppState {
   xp: number
   unlockedAchievements: string[]
   settings: Settings
+  /** last-write timestamp for sync LWW */
+  updatedAt?: string
 }
 
 export function completionKey(habitId: string, date: string): string {
