@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type TouchEvent, type MouseEvent } from 'react'
-import { Archive, ArchiveRestore, Pencil, Trash2 } from 'lucide-react'
+import { Archive, ArchiveRestore, Pencil, Trash2, CheckSquare, Square } from 'lucide-react'
 import { useHabits } from '../../store/useHabits'
 import { calculateStreak } from '../../lib/streaks'
 import { isCompleted, type Habit } from '../../lib/models'
@@ -10,10 +10,12 @@ import { cn } from '../../lib/utils'
 interface SwipeableHabitRowProps {
   habit: Habit
   selected: boolean
+  multiSelected?: boolean
   onSelect: () => void
+  onToggleMultiSelect?: () => void
 }
 
-export function SwipeableHabitRow({ habit, selected, onSelect }: SwipeableHabitRowProps) {
+export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, onToggleMultiSelect }: SwipeableHabitRowProps) {
   const { state, setOpenForm, archiveHabit, deleteHabit } = useHabits()
   const today = isoToday()
   const streak = calculateStreak(state, habit)
@@ -129,11 +131,7 @@ export function SwipeableHabitRow({ habit, selected, onSelect }: SwipeableHabitR
           )}
         </button>
         <button
-          onClick={() =>
-            handleAction(() => {
-              if (confirm(`delete "${habit.name}" and all its history?`)) deleteHabit(habit.id)
-            })
-          }
+          onClick={() => handleAction(() => deleteHabit(habit.id))}
           className="w-10 h-10 flex items-center justify-center text-danger active:opacity-70"
           title="delete"
         >
@@ -166,6 +164,22 @@ export function SwipeableHabitRow({ habit, selected, onSelect }: SwipeableHabitR
         >
           [{doneToday ? '✓' : ' '}]
         </span>
+        {onToggleMultiSelect && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onToggleMultiSelect()
+            }}
+            className="w-5 h-5 shrink-0"
+            title={multiSelected ? 'deselect' : 'select'}
+          >
+            {multiSelected ? (
+              <CheckSquare className="w-4 h-4 text-accent" />
+            ) : (
+              <Square className="w-4 h-4 text-dim" />
+            )}
+          </button>
+        )}
         <div className="flex-1 min-w-0">
           <div className="text-sm text-fg truncate">{habit.name}</div>
           <div className="text-[10px] text-dim flex gap-2 flex-wrap mt-0.5">

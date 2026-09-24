@@ -1,13 +1,15 @@
-import { Plus, Sparkles } from 'lucide-react'
+import { Plus, Sparkles, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { useHabits } from '../../store/useHabits'
 import { Panel, PromptLine } from '../ui/bits'
 import { RoutineIcon } from '../../lib/routine-icons'
 import { SwipeableHabitRow } from './SwipeableHabitRow'
 
 export function HabitsView() {
-  const { state, setOpenForm, setOpenTemplatePicker, selectedId, setSelectedId } = useHabits()
+  const { state, setOpenForm, setOpenTemplatePicker, selectedId, setSelectedId, deleteHabit } = useHabits()
   const active = state.habits.filter((h) => !h.archived)
   const archived = state.habits.filter((h) => h.archived)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
   if (state.habits.length === 0) {
     return (
@@ -27,12 +29,22 @@ export function HabitsView() {
   }
 
   const renderRow = (h: (typeof state.habits)[number]) => {
+    const isSelected = selectedIds.has(h.id)
     return (
       <SwipeableHabitRow
         key={h.id}
         habit={h}
         selected={selectedId === h.id}
+        multiSelected={isSelected}
         onSelect={() => setSelectedId(h.id)}
+        onToggleMultiSelect={() => {
+          setSelectedIds((prev: Set<string>) => {
+            const next = new Set(prev)
+            if (next.has(h.id)) next.delete(h.id)
+            else next.add(h.id)
+            return next
+          })
+        }}
       />
     )
   }
@@ -43,6 +55,19 @@ export function HabitsView() {
         <div className="flex items-center justify-between mb-3">
           <PromptLine>list --all</PromptLine>
           <div className="flex items-center gap-2">
+            {selectedIds.size > 0 && (
+              <button
+                onClick={() => {
+                  // no confirm — direct delete
+                  for (const id of selectedIds) deleteHabit(id)
+                  setSelectedIds(new Set())
+                }}
+                className="flex items-center gap-1 text-xs text-danger hover:opacity-80 active:opacity-70"
+              >
+                <Trash2 className="w-3 h-3" />
+                hapus {selectedIds.size}
+              </button>
+            )}
             <button
               onClick={() => setOpenTemplatePicker(true)}
               className="flex items-center gap-1 text-xs text-accent2 hover:opacity-80"
