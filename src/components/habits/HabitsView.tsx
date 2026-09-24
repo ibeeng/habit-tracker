@@ -1,4 +1,4 @@
-import { Archive, ArchiveRestore, Pencil, Trash2, Plus } from 'lucide-react'
+import { Archive, ArchiveRestore, Pencil, Trash2, Plus, Sparkles } from 'lucide-react'
 import { useHabits } from '../../store/useHabits'
 import { calculateStreak } from '../../lib/streaks'
 import { isCompleted } from '../../lib/models'
@@ -8,7 +8,7 @@ import { RoutineIcon } from '../../lib/routine-icons'
 import { cn } from '../../lib/utils'
 
 export function HabitsView() {
-  const { state, setOpenForm, archiveHabit, deleteHabit, selectedId, setSelectedId } = useHabits()
+  const { state, setOpenForm, setOpenTemplatePicker, archiveHabit, deleteHabit, selectedId, setSelectedId } = useHabits()
   const today = isoToday()
   const active = state.habits.filter((h) => !h.archived)
   const archived = state.habits.filter((h) => h.archived)
@@ -120,12 +120,21 @@ export function HabitsView() {
       <Panel>
         <div className="flex items-center justify-between mb-3">
           <PromptLine>list --all</PromptLine>
-          <button
-            onClick={() => setOpenForm('new')}
-            className="flex items-center gap-1 text-xs text-accent hover:opacity-80"
-          >
-            <Plus className="w-3 h-3" /> new
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setOpenTemplatePicker(true)}
+              className="flex items-center gap-1 text-xs text-accent2 hover:opacity-80"
+              title="browse habit templates"
+            >
+              <Sparkles className="w-3 h-3" /> templates
+            </button>
+            <button
+              onClick={() => setOpenForm('new')}
+              className="flex items-center gap-1 text-xs text-accent hover:opacity-80"
+            >
+              <Plus className="w-3 h-3" /> new
+            </button>
+          </div>
         </div>
         <div className="space-y-1.5">
           {active.map(renderRow)}
