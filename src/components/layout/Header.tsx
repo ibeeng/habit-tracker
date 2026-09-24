@@ -60,14 +60,6 @@ export function Header() {
           <span className="font-bold text-accent tracking-tight text-sm sm:text-base truncate">
             Rootine
           </span>
-          {user && (
-            <span
-              className="hidden sm:inline text-[10px] text-dim truncate max-w-28"
-              title={user.email || user.name}
-            >
-              @{user.name.split(' ')[0].toLowerCase()}
-            </span>
-          )}
         </div>
 
         {/* desktop tabs */}

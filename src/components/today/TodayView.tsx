@@ -5,6 +5,7 @@ import { isoToday, formatDate } from '../../lib/dates'
 import { calculateStreak } from '../../lib/streaks'
 import { levelInfo } from '../../lib/xp'
 import { AsciiBar, Panel, PromptLine } from '../ui/bits'
+import { RoutineIcon } from '../../lib/routine-icons'
 import { HabitRow } from './HabitRow'
 
 export function TodayView() {
@@ -109,7 +110,7 @@ export function TodayView() {
           <section key={r.id} className="space-y-1">
             <div className="flex items-baseline justify-between">
               <h2 className="text-xs font-bold text-accent2 uppercase tracking-widest">
-                {r.icon && <span>{r.icon} </span>}
+                {r.icon && <RoutineIcon icon={r.icon} className="w-3 h-3 inline-block mr-1 -mt-0.5 align-middle" />}
                 {r.name}
                 <span className="ml-2 text-dim font-normal normal-case tracking-normal tnum">
                   [{rDone}/{habits.length}]

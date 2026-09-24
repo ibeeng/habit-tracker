@@ -4,6 +4,7 @@ import { calculateStreak } from '../../lib/streaks'
 import { isCompleted } from '../../lib/models'
 import { isoToday } from '../../lib/dates'
 import { Panel, PromptLine } from '../ui/bits'
+import { RoutineIcon } from '../../lib/routine-icons'
 import { cn } from '../../lib/utils'
 
 export function HabitsView() {
@@ -59,7 +60,12 @@ export function HabitsView() {
             {h.routineId &&
               (() => {
                 const r = state.routines.find((x) => x.id === h.routineId)
-                return r ? <span className="text-warn">↻ {r.name}</span> : null
+                return r ? (
+                  <span className="text-warn inline-flex items-center gap-1">
+                    <RoutineIcon icon={r.icon} className="w-3 h-3" />
+                    {r.name}
+                  </span>
+                ) : null
               })()}
           </div>
         </div>
@@ -144,7 +150,10 @@ export function HabitsView() {
               const count = state.habits.filter((h) => h.routineId === r.id && !h.archived).length
               return (
                 <div key={r.id} className="flex items-center justify-between text-xs py-1">
-                  <span className="text-fg">↻ {r.name}</span>
+                  <span className="text-fg inline-flex items-center gap-1.5">
+                    <RoutineIcon icon={r.icon} className="w-3.5 h-3.5 text-accent2" />
+                    {r.name}
+                  </span>
                   <span className="text-dim tnum">{count} habits</span>
                 </div>
               )

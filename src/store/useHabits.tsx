@@ -13,6 +13,7 @@ import type { AppState, Habit, Routine, TrackingMode, Schedule } from '../lib/mo
 import { completionKey } from '../lib/models'
 import { isDueOn, periodGoal } from '../lib/schedules'
 import { exportState, loadState, parseImport, saveState } from '../lib/storage'
+import { normalizeRoutineIcon } from '../lib/routine-icons'
 import { calculateStreak, reconcileShields } from '../lib/streaks'
 import { XP_PER_COMPLETION, grantAchievements, type Achievement } from '../lib/xp'
 import { applyTheme } from '../themes'
@@ -274,7 +275,14 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
       setState((prev) =>
         setStateWithAchievements({
           ...prev,
-          routines: [...prev.routines, { id, name: input.name, icon: input.icon ?? '🎯' } as Routine],
+          routines: [
+            ...prev.routines,
+            {
+              id,
+              name: input.name,
+              icon: input.icon ?? normalizeRoutineIcon(undefined, input.name),
+            } as Routine,
+          ],
         }),
       )
       return id

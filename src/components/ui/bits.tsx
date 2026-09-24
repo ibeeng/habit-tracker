@@ -1,4 +1,5 @@
 import { cn } from '../../lib/utils'
+import { useAuth } from '../../store/auth'
 
 /** ASCII-style bar: ███░░░░ 60% */
 export function AsciiBar({ pct, width = 12 }: { pct: number; width?: number }) {
@@ -35,9 +36,15 @@ export function Panel({
 }
 
 export function PromptLine({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth()
+  const who = user
+    ? (user.email?.split('@')[0] || user.name.split(' ')[0] || 'user').toLowerCase()
+    : 'you'
   return (
     <div className="text-xs text-dim">
-      <span className="text-accent">you@rootine</span>
+      <span className="text-accent" title={user?.email || undefined}>
+        {who}@rootine
+      </span>
       <span className="text-accent2"> $ </span>
       {children}
     </div>
