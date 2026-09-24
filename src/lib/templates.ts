@@ -291,4 +291,108 @@ export const TEMPLATES: TemplatePreset[] = [
       },
     ],
   },
+
+  {
+    id: 'ghost-mode',
+    name: 'Ghost Mode 6 Months',
+    description:
+      'Disappear. Focus. Transform. — train like warrior, deep work, clean eating, zero vices',
+    icon: 'moon-star',
+    routines: [
+      { ref: 'pagi', name: 'Pagi', icon: 'sunrise' },
+      { ref: 'malam', name: 'Malam', icon: 'moon' },
+    ],
+    habits: [
+      // PAGI — eksekusi harian
+      {
+        name: 'Bangun ≤ 05.30',
+        mode: 'checkbox',
+        schedule: { type: 'daily' },
+        routineRef: 'pagi',
+      },
+      {
+        name: 'Train like warrior',
+        mode: 'checkbox',
+        schedule: { type: 'weekly', timesPerWeek: 4 },
+        routineRef: 'pagi',
+      },
+      {
+        name: 'Jalan 8k langkah',
+        mode: 'number',
+        schedule: { type: 'daily' },
+        goal: 8000,
+        unit: 'langkah',
+        routineRef: 'pagi',
+      },
+      {
+        name: 'Deep work (NO HP)',
+        mode: 'timer',
+        schedule: { type: 'daily' },
+        goal: 90,
+        unit: 'min',
+        routineRef: 'pagi',
+      },
+      {
+        name: 'Protein tiap makan',
+        mode: 'counter',
+        schedule: { type: 'daily' },
+        goal: 3,
+        unit: 'x',
+        routineRef: 'pagi',
+      },
+      {
+        name: 'Air 2L (8 gelas)',
+        mode: 'counter',
+        schedule: { type: 'daily' },
+        goal: 8,
+        unit: 'gelas',
+        routineRef: 'pagi',
+      },
+      // MALAM — rutinitas harian template
+      {
+        name: 'Review: 1 win hari ini',
+        mode: 'checkbox',
+        schedule: { type: 'daily' },
+        routineRef: 'malam',
+      },
+      {
+        name: 'Jurnal 5 baris',
+        mode: 'timer',
+        schedule: { type: 'daily' },
+        goal: 5,
+        unit: 'min',
+        routineRef: 'malam',
+      },
+      {
+        name: 'Makan bersih 80%',
+        mode: 'checkbox',
+        schedule: { type: 'daily' },
+        routineRef: 'malam',
+      },
+      {
+        name: 'Zero vice (scroll/game)',
+        mode: 'checkbox',
+        schedule: { type: 'daily' },
+        routineRef: 'malam',
+      },
+      {
+        name: 'HP off 22.00',
+        mode: 'checkbox',
+        schedule: { type: 'daily' },
+        routineRef: 'malam',
+      },
+      {
+        name: 'Tidur sebelum 23.00',
+        mode: 'checkbox',
+        schedule: { type: 'daily' },
+        routineRef: 'malam',
+      },
+      // MINGGUAN — weekly check tiap Ahad
+      {
+        name: 'Weekly review (Ahad)',
+        mode: 'checkbox',
+        schedule: { type: 'weekly', timesPerWeek: 1, weekdays: [0] },
+      },
+    ],
+  },
 ]
