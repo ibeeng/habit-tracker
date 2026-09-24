@@ -1,6 +1,5 @@
 import type { AppState } from '../models'
 import { loadSyncSettings, saveSyncSettings } from './settings'
-import { gdriveBackend } from './gdrive'
 import { telegramBackend } from './telegram'
 import type { SyncBackend, SyncEnvelope, SyncSettings } from './types'
 
@@ -19,20 +18,6 @@ export function pickNewer(local: AppState, remote: AppState): AppState {
 }
 
 function backendFor(settings: SyncSettings): SyncBackend {
-  if (settings.provider === 'gdrive') {
-    if (!settings.gdrive) throw new Error('Google Drive belum terhubung')
-    return gdriveBackend(
-      () => {
-        const s = loadSyncSettings()
-        if (!s?.gdrive) throw new Error('Google Drive belum terhubung')
-        return s.gdrive
-      },
-      (c) => {
-        const s = loadSyncSettings()
-        if (s) saveSyncSettings({ ...s, gdrive: c })
-      },
-    )
-  }
   if (settings.provider === 'telegram') {
     if (!settings.telegram) throw new Error('Telegram belum terhubung')
     return telegramBackend(() => {

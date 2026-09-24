@@ -1,17 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
-import { X, HardDrive, Send, Link2, Unlink, RefreshCw, Check } from 'lucide-react'
+import { X, Send, Link2, Unlink, RefreshCw, Check } from 'lucide-react'
 import { useSync } from '../../store/sync'
-import { requestGdriveToken } from '../../lib/sync/gdrive'
 import { discoverChatId, validateBot } from '../../lib/sync/telegram'
-import type { SyncProviderId } from '../../lib/sync/types'
 import { cn } from '../../lib/utils'
 
-type View = 'pick' | 'gdrive' | 'telegram' | 'telegram-wait'
+type View = 'setup' | 'wait' | 'status'
 
 export function SyncModal() {
-  const { modalOpen, setModalOpen, settings, setSettings, disconnect, syncPush, syncPull, status, error, lastSyncAt } =
-    useSync()
-  const [view, setView] = useState<View>('pick')
+  const {
+    modalOpen,
+    setModalOpen,
+    settings,
+    setSettings,
+    disconnect,
+    syncPush,
+    syncPull,
+    status,
+    error,
+    lastSyncAt,
+  } = useSync()
+  const [view, setView] = useState<View>('setup')
   const [busy, setBusy] = useState(false)
   const [localError, setLocalError] = useState<string | null>(null)
   const [botToken, setBotToken] = useState('')
@@ -22,7 +30,7 @@ export function SyncModal() {
   useEffect(() => {
     if (modalOpen) {
       setLocalError(null)
-      setView(settings ? 'pick' : 'pick')
+      setView(settings ? 'status' : 'setup')
       setBotToken('')
       setBotUsername(null)
       setPollMs(0)
@@ -38,28 +46,13 @@ export function SyncModal() {
     setModalOpen(false)
   }
 
-  const connectGdrive = async () => {
-    setBusy(true)
-    setLocalError(null)
-    try {
-      const creds = await requestGdriveToken(true)
-      setSettings({ provider: 'gdrive', gdrive: creds, lastPushAt: settings?.lastPushAt })
-      await syncPush()
-      close()
-    } catch (e) {
-      setLocalError(e instanceof Error ? e.message : 'gagal hubungkan Google Drive')
-    } finally {
-      setBusy(false)
-    }
-  }
-
   const startTelegram = async () => {
     setBusy(true)
     setLocalError(null)
     try {
       const username = await validateBot(botToken.trim())
       setBotUsername(username)
-      setView('telegram-wait')
+      setView('wait')
       pollRef.current = true
       const chatId = await discoverChatId(botToken.trim(), {
         timeoutMs: 90_000,
@@ -77,16 +70,11 @@ export function SyncModal() {
       close()
     } catch (e) {
       setLocalError(e instanceof Error ? e.message : 'gagal hubungkan Telegram')
-      setView(botUsername ? 'telegram-wait' : 'telegram')
+      setView(botUsername ? 'wait' : 'setup')
     } finally {
       setBusy(false)
       pollRef.current = false
     }
-  }
-
-  const providerLabel: Record<SyncProviderId, string> = {
-    gdrive: 'google drive',
-    telegram: 'telegram',
   }
 
   const relTime = (t: number) => {
@@ -109,8 +97,7 @@ export function SyncModal() {
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-accent font-bold text-sm">
-            $ sync
-            {settings ? ` --${settings.provider}` : ' --setup'}
+            {view === 'status' ? '$ sync --telegram' : '$ sync --setup'}
             <span className="cursor-blink">_</span>
           </h2>
           <button onClick={close} className="text-dim hover:text-fg p-1" aria-label="close">
@@ -124,13 +111,13 @@ export function SyncModal() {
           </p>
         )}
 
-        {settings && view === 'pick' && (
+        {view === 'status' && settings && (
           <div className="space-y-3">
             <div className="border border-border bg-bg2 rounded-sm p-3 space-y-1">
               <div className="flex items-center gap-2 text-xs">
                 <Check className="w-3.5 h-3.5 text-success" />
-                <span className="text-fg font-bold">terhubung · {providerLabel[settings.provider]}</span>
-                {settings.provider === 'telegram' && settings.telegram?.botUsername && (
+                <span className="text-fg font-bold">terhubung · telegram</span>
+                {settings.telegram?.botUsername && (
                   <span className="text-dim">@{settings.telegram.botUsername}</span>
                 )}
               </div>
@@ -177,59 +164,18 @@ export function SyncModal() {
           </div>
         )}
 
-        {view === 'pick' && !settings && (
-          <div className="space-y-2">
-            <p className="text-xs text-dim mb-3">
-              {'// data tersimpan lokal — pilih tempat sync (opsional)'}
-            </p>
-            <button
-              onClick={() => setView('gdrive')}
-              className="w-full text-left px-3 py-3 rounded-sm border border-border bg-bg2 hover:border-accent transition-colors flex items-start gap-3"
-            >
-              <HardDrive className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-              <span>
-                <span className="block text-xs font-bold text-fg">Google Drive</span>
-                <span className="block text-[11px] text-dim mt-0.5">
-                  file privat di Drive kamu · auto-sync lintas device
-                </span>
-              </span>
-            </button>
-            <button
-              onClick={() => setView('telegram')}
-              className="w-full text-left px-3 py-3 rounded-sm border border-border bg-bg2 hover:border-accent transition-colors flex items-start gap-3"
-            >
+        {view === 'setup' && (
+          <div className="space-y-3">
+            <div className="flex items-start gap-2.5 border border-border bg-bg2 rounded-sm p-3">
               <Send className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-              <span>
-                <span className="block text-xs font-bold text-fg">Telegram</span>
-                <span className="block text-[11px] text-dim mt-0.5">
-                  simpan backup ke chat bot kamu sendiri
-                </span>
-              </span>
-            </button>
-          </div>
-        )}
+              <div className="text-xs">
+                <div className="font-bold text-fg">Sync via Telegram</div>
+                <div className="text-dim mt-0.5 leading-relaxed">
+                  data habit dikirim ke bot Telegram milikmu sendiri — aman, gratis, lintas device
+                </div>
+              </div>
+            </div>
 
-        {view === 'gdrive' && (
-          <div className="space-y-3">
-            <p className="text-xs text-dim leading-relaxed">
-              Rootine minta izin akses <span className="text-accent">appDataFolder</span> di Google
-              Drive kamu (file nggak keliatan di My Drive, cuma app ini).
-            </p>
-            <button
-              onClick={() => void connectGdrive()}
-              disabled={busy}
-              className="w-full px-3 py-2.5 text-xs rounded-sm bg-accent text-bg font-bold hover:opacity-90 disabled:opacity-50"
-            >
-              {busy ? 'membuka google…' : 'hubungkan Google Drive'}
-            </button>
-            <button onClick={() => setView('pick')} className="w-full text-xs text-dim hover:text-fg py-1">
-              ← kembali
-            </button>
-          </div>
-        )}
-
-        {view === 'telegram' && (
-          <div className="space-y-3">
             <ol className="text-xs text-dim space-y-1.5 list-decimal list-inside">
               <li>
                 Buka{' '}
@@ -246,6 +192,7 @@ export function SyncModal() {
               <li>Kirim pesan apa saja (atau <span className="text-fg">/start</span>) ke bot kamu</li>
               <li>Tempel token di bawah</li>
             </ol>
+
             <input
               type="password"
               value={botToken}
@@ -255,6 +202,7 @@ export function SyncModal() {
               autoComplete="off"
               spellCheck={false}
             />
+
             <button
               onClick={() => void startTelegram()}
               disabled={busy || !botToken.trim()}
@@ -263,13 +211,14 @@ export function SyncModal() {
               <Link2 className="w-3.5 h-3.5" />
               {busy ? 'validasi bot…' : 'hubungkan Telegram'}
             </button>
-            <button onClick={() => setView('pick')} className="w-full text-xs text-dim hover:text-fg py-1">
-              ← kembali
-            </button>
+
+            <p className="text-[10px] text-muted text-center leading-relaxed">
+              data lokal tetap utama · sync opsional · token disimpan di browser kamu
+            </p>
           </div>
         )}
 
-        {view === 'telegram-wait' && botUsername && (
+        {view === 'wait' && botUsername && (
           <div className="space-y-3 text-center">
             <p className="text-xs text-dim">kirim pesan ke</p>
             <a
@@ -282,9 +231,7 @@ export function SyncModal() {
             </a>
             <p className="text-xs text-dim">
               {busy ? (
-                <span className="text-accent">
-                  menunggu pesan… {Math.floor(pollMs / 1000)}s
-                </span>
+                <span className="text-accent">menunggu pesan… {Math.floor(pollMs / 1000)}s</span>
               ) : (
                 'lalu kembali ke sini'
               )}
@@ -292,7 +239,7 @@ export function SyncModal() {
             <button
               onClick={() => {
                 pollRef.current = false
-                setView('telegram')
+                setView('setup')
               }}
               className="w-full text-xs text-dim hover:text-fg py-1"
             >

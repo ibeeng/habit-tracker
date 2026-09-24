@@ -96,7 +96,7 @@
           <li>Data habit disimpan di <em>browser kamu sendiri</em> (localStorage) — bukan di server kami.</li>
           <li>Login pakai Google hanya untuk verifikasi identitas — kami tidak menyimpan password.</li>
           <li>Kami <strong>tidak menjual</strong> data kamu ke pihak mana pun.</li>
-          <li>Sync (Google Drive / Telegram) bersifat <strong>opsional</strong> dan hanya aktif jika kamu mengaktifkannya.</li>
+          <li>Sync (Telegram) bersifat <strong>opsional</strong> dan hanya aktif jika kamu mengaktifkannya.</li>
         </ul>
       </div>
 
@@ -118,11 +118,6 @@
       <p><strong>c. Jika kamu mengaktifkan sync (opsional)</strong></p>
       <ul>
         <li>
-          <strong>Google Drive:</strong> file JSON habit disimpan di folder privat
-          <em>appDataFolder</em> akun Google kamu. Kami meminta izin scope
-          <code>drive.appdata</code> — hanya bisa mengakses file yang dibuat oleh aplikasi ini.
-        </li>
-        <li>
           <strong>Telegram:</strong> jika kamu menghubungkan bot Telegram milikmu sendiri,
           data habit dikirim sebagai file JSON ke chat bot tersebut. Token bot disimpan lokal di browser kamu.
         </li>
@@ -139,7 +134,7 @@
       <ul>
         <li>Data habit utama: localStorage browser (perangkat)</li>
         <li>Sesi login: localStorage browser (token kedaluwarsa mengikuti token Google)</li>
-        <li>Data sync: di penyimpanan milik kamu sendiri (Google Drive / Telegram), bukan server kami</li>
+        <li>Data sync: di penyimpanan milik kamu sendiri (Telegram), bukan server kami</li>
         <li>Kami tidak mengoperasikan basis data server yang menyimpan data habit kamu</li>
       </ul>
 
@@ -149,7 +144,7 @@
         pihak ketiga untuk tujuan pemasaran, atau pihak lain — kecuali:
       </p>
       <ul>
-        <li>Kamu secara eksplisit mengaktifkan sync ke Google Drive / Telegram</li>
+        <li>Kamu secara eksplisit mengaktifkan sync ke Telegram</li>
         <li>Diwajibkan oleh hukum yang berlaku</li>
       </ul>
 
@@ -158,9 +153,6 @@
         <li>
           <strong>Google Sign-In (Google Identity Services)</strong> — untuk login.
           Kebijakan privasi Google: <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">policies.google.com/privacy</a>
-        </li>
-        <li>
-          <strong>Google Drive API</strong> — hanya jika kamu mengaktifkan sync Drive
         </li>
         <li>
           <strong>Telegram Bot API</strong> — hanya jika kamu menghubungkan bot Telegram
@@ -173,7 +165,7 @@
       <h2>6. Hak kamu</h2>
       <ul>
         <li>Menghapus data habit: menu <code>⋮ → reset data</code> di aplikasi</li>
-        <li>Menghapus backup JSON: hapus file dari Google Drive / chat Telegram kamu</li>
+        <li>Menghapus backup JSON: hapus file dari chat Telegram kamu</li>
         <li>Memutus sync: menu sync → <code>disconnect</code></li>
         <li>Menarik izin Google: <a href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">myaccount.google.com/permissions</a></li>
         <li>Menghapus akun / sesi: tombol <code>sign out</code></li>

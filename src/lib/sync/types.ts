@@ -1,11 +1,6 @@
 import type { AppState } from '../models'
 
-export type SyncProviderId = 'gdrive' | 'telegram'
-
-export interface GdriveCreds {
-  accessToken: string
-  expiresAt: number
-}
+export type SyncProviderId = 'telegram'
 
 export interface TelegramCreds {
   botToken: string
@@ -15,7 +10,6 @@ export interface TelegramCreds {
 
 export interface SyncSettings {
   provider: SyncProviderId
-  gdrive?: GdriveCreds
   telegram?: TelegramCreds
   lastPushAt?: number
   lastPullAt?: number
