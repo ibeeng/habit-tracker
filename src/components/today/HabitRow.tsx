@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, Pause, Square, Minus, Plus } from 'lucide-react'
 import { useHabits } from '../../store/useHabits'
 import { isCompleted, completionValue, type Habit } from '../../lib/models'
@@ -14,7 +14,8 @@ interface Props {
 }
 
 export function HabitRow({ habit, selected, onSelect }: Props) {
-  const { state, completeHabit, setValue, setOpenForm, archiveHabit } = useHabits()
+  const ctx = useHabits()
+  const { state, completeHabit, setValue, setOpenForm, archiveHabit } = ctx
   const today = isoToday()
   const done = isCompleted(habit, state.completions, today)
   const value = completionValue(habit, state.completions, today)
@@ -76,13 +77,7 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
             <CounterControl habit={habit} value={value} onChange={(v) => setValue(habit, v)} />
           )}
           {habit.mode === 'number' && (
-            <div className="text-[11px] tnum text-dim">
-              <span className={value >= (habit.goal ?? 0) ? 'text-accent' : ''}>{value}</span>
-              <span className="text-muted"> / {habit.goal ?? 0}</span>
-              {goal > 1 && habit.mode === 'number' && habit.schedule.type === 'daily' && (
-                <span className="ml-2 text-muted">{barBlocks(Math.min(100, (value / (habit.goal ?? 1)) * 100), 8)}</span>
-              )}
-            </div>
+            <NumberControl habit={habit} value={value} onChange={(v) => setValue(habit, v)} />
           )}
           {habit.mode === 'timer' && <TimerControl habit={habit} />}
 
@@ -188,26 +183,107 @@ function CounterControl({
   )
 }
 
+function NumberControl({ habit, value, onChange }: { habit: Habit; value: number; onChange: (v: number) => void }) {
+  const goal = habit.goal ?? 0
+  const pct = goal > 0 ? Math.min(100, (value / goal) * 100) : value > 0 ? 100 : 0
+  return (
+    <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+      <button
+        onClick={() => onChange(Math.max(0, value - 1))}
+        className="p-0.5 border border-border rounded-sm text-dim hover:text-danger hover:border-danger"
+        aria-label="decrease"
+      >
+        <Minus className="w-3 h-3" />
+      </button>
+      <span className="text-[11px] tnum min-w-[52px] text-center">
+        <span className={value >= goal && goal > 0 ? 'text-accent font-bold' : 'text-fg'}>
+          {value}
+        </span>
+        <span className="text-muted">/{goal}</span>
+      </span>
+      <button
+        onClick={() => onChange(value + 1)}
+        className="p-0.5 border border-border rounded-sm text-dim hover:text-accent hover:border-accent"
+        aria-label="increase"
+      >
+        <Plus className="w-3 h-3" />
+      </button>
+      <span className="text-[10px] text-muted ml-1 tnum hidden sm:inline">
+        {barBlocks(pct, 6)}
+      </span>
+      <button
+        onClick={() => onChange(goal)}
+        className={cn(
+          'text-[10px] px-1 border rounded-sm',
+          value >= goal && goal > 0
+            ? 'border-accent text-accent'
+            : 'border-border text-dim hover:border-accent hover:text-accent',
+        )}
+        aria-label="fill goal"
+      >
+        max
+      </button>
+      <span className="sr-only">{habit.name}</span>
+    </div>
+  )
+}
+
 function TimerControl({ habit }: { habit: Habit }) {
-  const { state, setValue } = useHabits()
+  const timerCtx = useHabits()
+  const { state, setValue } = timerCtx
   const today = isoToday()
   const value = completionValue(habit, state.completions, today)
   const target = habit.goal ?? 25
   const [running, setRunning] = useState(false)
   const [elapsed, setElapsed] = useState(0)
+  const [justFinished, setJustFinished] = useState(false)
   const startRef = useRef<number | null>(null)
   const valueRef = useRef(value)
   valueRef.current = value
+
+  const notifyTimerDone = useCallback(() => {
+    try {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Habit Tracker', {
+          body: `Timer "${habit.name}" selesai — ${target} menit`,
+          silent: false,
+          tag: `timer-${habit.id}-${today}`,
+        })
+      }
+    } catch {}
+  }, [habit.name, habit.id, target, today])
+
+  const playSound = useCallback(
+    async (src: string) => {
+      try {
+        const audio = new Audio(src)
+        audio.volume = 0.5
+        await audio.play()
+      } catch {}
+    },
+    [],
+  )
 
   useEffect(() => {
     if (!running) return
     startRef.current = Date.now()
     const id = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - startRef.current!) / 1000))
-    }, 1000)
+      const now = Date.now()
+      const secs = Math.floor((now - (startRef.current ?? now)) / 1000)
+      setElapsed(secs)
+      const targetSecs = target * 60
+      if (secs > 0 && secs >= targetSecs && !justFinished) {
+        setRunning(false)
+        setJustFinished(true)
+        const newVal = valueRef.current + target
+        setValue(habit, newVal)
+        playSound('/favicon.ico')
+        notifyTimerDone()
+        setTimeout(() => setJustFinished(false), 3000)
+      }
+    }, 250)
     return () => {
       clearInterval(id)
-      // commit elapsed minutes
       const secs = Math.floor((Date.now() - (startRef.current ?? Date.now())) / 1000)
       if (secs >= 1) {
         const mins = Math.floor(secs / 60)
@@ -217,7 +293,21 @@ function TimerControl({ habit }: { habit: Habit }) {
       }
       setElapsed(0)
     }
-  }, [running, habit, setValue])
+  }, [running, habit, setValue, target, justFinished, playSound, notifyTimerDone])
+
+  const launchTimer = () => {
+    setRunning(true)
+    playSound('/favicon.ico')
+  }
+
+  useEffect(() => {
+    const ask = async () => {
+      if ('Notification' in window && Notification.permission === 'default') {
+        await Notification.requestPermission()
+      }
+    }
+    ask()
+  }, [habit.id])
 
   const totalSecs = value * 60 + elapsed
   const mm = String(Math.floor(totalSecs / 60)).padStart(2, '0')
@@ -227,7 +317,7 @@ function TimerControl({ habit }: { habit: Habit }) {
   return (
     <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
       <button
-        onClick={() => setRunning((r) => !r)}
+        onClick={launchTimer}
         className={cn(
           'p-0.5 border rounded-sm',
           running
@@ -244,6 +334,9 @@ function TimerControl({ habit }: { habit: Habit }) {
         </span>
         <span className="text-muted"> / {target}:00</span>
       </span>
+      {justFinished && (
+        <span className="text-[10px] text-warn animate-pulse">✦ done</span>
+      )}
       <span className="text-[10px] text-muted tnum">{barBlocks(pct, 6)}</span>
       <button
         onClick={() => {

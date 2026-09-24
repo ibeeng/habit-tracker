@@ -37,6 +37,7 @@ export interface Completion {
 export interface Routine {
   id: string
   name: string
+  icon: string
 }
 
 export interface ShieldEvent {

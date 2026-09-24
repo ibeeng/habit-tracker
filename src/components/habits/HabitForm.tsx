@@ -21,6 +21,12 @@ const SCHEDULES: { id: ScheduleType; label: string }[] = [
 
 const WEEKDAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa']
 
+const ROUTINE_ICONS = [
+  '🎯', '🌅', '☀️', '🌙', '😴', '🛏️', '💪', '🏋️', '🚶', '🏃', '🤸', '🧘',
+  '💧', '☕', '🍵', '💊', '🍽️', '🥞', '🍜', '🍲', '🥗', '🚿', '🪥', '🧴',
+  '💻', '📚', '📖', '🎯', '🧠', '📓', '📝', '🙏', '🚬', '🔍', '📋', '📅', '📆', '✅',
+] as const
+
 export function HabitForm() {
   const { openForm, setOpenForm, addHabit, updateHabit, state, addRoutine, deleteRoutine } =
     useHabits()
@@ -39,6 +45,7 @@ export function HabitForm() {
   const [routineId, setRoutineId] = useState<string | null>(editing?.routineId ?? null)
   const [startDate, setStartDate] = useState(editing?.schedule.startDate ?? '')
   const [newRoutine, setNewRoutine] = useState('')
+  const [newRoutineIcon, setNewRoutineIcon] = useState<typeof ROUTINE_ICONS[number]>('🎯')
 
   if (!openForm) return null
 
@@ -249,7 +256,7 @@ export function HabitForm() {
               none
             </button>
             {state.routines.map((r) => (
-              <span key={r.id} className="flex items-center">
+              <span key={r.id} className="flex items-center gap-1">
                 <button
                   type="button"
                   onClick={() => setRoutineId(r.id)}
@@ -260,7 +267,7 @@ export function HabitForm() {
                       : 'border-border text-dim hover:border-muted',
                   )}
                 >
-                  {r.name}
+                  <span>{r.icon}</span> {r.name}
                 </button>
                 <button
                   type="button"
@@ -274,19 +281,34 @@ export function HabitForm() {
             ))}
           </div>
           <div className="mt-2 flex gap-1.5">
-            <input
-              value={newRoutine}
-              onChange={(e) => setNewRoutine(e.target.value)}
-              placeholder="+ new routine name"
-              className="flex-1 bg-bg2 border border-border rounded-sm px-2 py-1 text-xs text-fg placeholder:text-muted focus:outline-none focus:border-accent"
-            />
+            <div className="flex-1 flex items-center gap-1 bg-bg2 border border-border rounded-sm px-1.5 py-0.5">
+              <input
+                value={newRoutine}
+                onChange={(e) => setNewRoutine(e.target.value)}
+                placeholder="name"
+                className="flex-1 bg-transparent text-xs text-fg placeholder:text-muted focus:outline-none"
+              />
+              <select
+                value={newRoutineIcon}
+                onChange={(e) => setNewRoutineIcon(e.target.value as typeof ROUTINE_ICONS[number])}
+                className="bg-bg border border-border rounded-sm px-1 py-0.5 text-xs text-dim"
+                title="icon"
+              >
+                {ROUTINE_ICONS.map((ic) => (
+                  <option key={ic} value={ic}>
+                    {ic}
+                  </option>
+                ))}
+              </select>
+            </div>
             <button
               type="button"
               onClick={() => {
                 if (!newRoutine.trim()) return
-                const id = addRoutine(newRoutine.trim())
+                const id = addRoutine({ name: newRoutine.trim(), icon: newRoutineIcon })
                 setRoutineId(id)
                 setNewRoutine('')
+                setNewRoutineIcon('🎯')
               }}
               className="px-2 py-1 border border-border rounded-sm text-xs text-dim hover:text-accent hover:border-accent"
             >

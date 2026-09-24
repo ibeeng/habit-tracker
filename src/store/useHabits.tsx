@@ -43,7 +43,7 @@ interface HabitsContextValue {
   updateHabit: (id: string, input: HabitInput) => void
   archiveHabit: (id: string) => void
   deleteHabit: (id: string) => void
-  addRoutine: (name: string) => string
+  addRoutine: (input: RoutineInput) => string
   deleteRoutine: (id: string) => void
   exportJson: () => string
   importJson: (json: string) => void
@@ -57,6 +57,11 @@ export interface HabitInput {
   goal?: number
   unit?: string
   routineId?: string | null
+}
+
+export interface RoutineInput {
+  name: string
+  icon?: string
 }
 
 const HabitsContext = createContext<HabitsContextValue | null>(null)
@@ -263,12 +268,12 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const addRoutine = useCallback(
-    (name: string) => {
+    (input: RoutineInput) => {
       const id = crypto.randomUUID()
       setState((prev) =>
         setStateWithAchievements({
           ...prev,
-          routines: [...prev.routines, { id, name } as Routine],
+          routines: [...prev.routines, { id, name: input.name, icon: input.icon ?? '🎯' } as Routine],
         }),
       )
       return id
