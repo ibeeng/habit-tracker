@@ -75,13 +75,13 @@ export function HabitsView() {
           </div>
           <div className="text-[9px] text-muted">streak</div>
         </div>
-        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex gap-1 opacity-0 group-hover:opacity-100 sm:transition-opacity sm:opacity-0 opacity-100 sm:group-hover:opacity-100">
           <button
             onClick={(e) => {
               e.stopPropagation()
               setOpenForm(h)
             }}
-            className="p-1 text-dim hover:text-accent"
+            className="p-1 text-dim hover:text-accent active:text-accent"
             title="edit"
           >
             <Pencil className="w-3.5 h-3.5" />
@@ -91,7 +91,7 @@ export function HabitsView() {
               e.stopPropagation()
               archiveHabit(h.id)
             }}
-            className="p-1 text-dim hover:text-warn"
+            className="p-1 text-dim hover:text-warn active:text-warn"
             title={h.archived ? 'restore' : 'archive'}
           >
             {h.archived ? (
@@ -105,7 +105,7 @@ export function HabitsView() {
               e.stopPropagation()
               if (confirm(`delete "${h.name}" and all its history?`)) deleteHabit(h.id)
             }}
-            className="p-1 text-dim hover:text-danger"
+            className="p-1 text-dim hover:text-danger active:text-danger"
             title="delete"
           >
             <Trash2 className="w-3.5 h-3.5" />
