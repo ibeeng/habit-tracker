@@ -109,10 +109,10 @@ export function TodayView() {
         return (
           <section key={r.id} className="space-y-1">
             <div className="flex items-baseline justify-between">
-              <h2 className="text-xs font-bold text-accent2 uppercase tracking-widest">
-                {r.icon && <RoutineIcon icon={r.icon} className="w-3 h-3 inline-block mr-1 -mt-0.5 align-middle" />}
+              <h2 className="text-xs font-bold text-accent2 uppercase tracking-widest flex items-center gap-1.5">
+                {r.icon && <RoutineIcon icon={r.icon} className="w-4 h-4 text-accent" />}
                 {r.name}
-                <span className="ml-2 text-dim font-normal normal-case tracking-normal tnum">
+                <span className="text-dim font-normal normal-case tracking-normal tnum">
                   [{rDone}/{habits.length}]
                 </span>
               </h2>

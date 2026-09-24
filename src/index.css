@@ -88,6 +88,14 @@ body:has(.modal-open) {
   overflow: hidden;
 }
 
+/* lucide icons: always inherit theme color + stay inline with text */
+.lucide {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  color: inherit;
+}
+
 ::selection {
   background: var(--accent);
   color: var(--bg);

@@ -44,6 +44,7 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react'
+import { cn } from './utils'
 
 /** Free/open-source lucide icons (ISC) — matches app terminal aesthetic. Stored as string keys. */
 export const ROUTINE_ICONS = {
@@ -253,5 +254,11 @@ export function RoutineIcon({
   className?: string
 }) {
   const Cmp = ROUTINE_ICONS[normalizeRoutineIcon(icon)] ?? ROUTINE_ICONS[DEFAULT_ROUTINE_ICON]
-  return <Cmp className={className ?? 'w-3.5 h-3.5 inline-block shrink-0'} aria-hidden />
+  return (
+    <Cmp
+      className={cn('w-4 h-4 shrink-0 text-current', className)}
+      strokeWidth={2.25}
+      aria-hidden
+    />
+  )
 }

@@ -62,7 +62,7 @@ export function HabitsView() {
                 const r = state.routines.find((x) => x.id === h.routineId)
                 return r ? (
                   <span className="text-warn inline-flex items-center gap-1">
-                    <RoutineIcon icon={r.icon} className="w-3 h-3" />
+                    <RoutineIcon icon={r.icon} className="w-4 h-4 text-warn" />
                     {r.name}
                   </span>
                 ) : null
@@ -151,7 +151,7 @@ export function HabitsView() {
               return (
                 <div key={r.id} className="flex items-center justify-between text-xs py-1">
                   <span className="text-fg inline-flex items-center gap-1.5">
-                    <RoutineIcon icon={r.icon} className="w-3.5 h-3.5 text-accent2" />
+                    <RoutineIcon icon={r.icon} className="w-4 h-4 text-accent" />
                     {r.name}
                   </span>
                   <span className="text-dim tnum">{count} habits</span>

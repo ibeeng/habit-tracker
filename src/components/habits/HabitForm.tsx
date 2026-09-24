@@ -275,8 +275,8 @@ export function HabitForm() {
                       : 'border-border text-dim hover:border-muted',
                   )}
                 >
-                  <span className="inline-flex items-center gap-1">
-                    <RoutineIcon icon={r.icon} className="w-3 h-3" />
+                  <span className="inline-flex items-center gap-1.5">
+                    <RoutineIcon icon={r.icon} className="w-4 h-4" />
                     {r.name}
                   </span>
                 </button>
@@ -291,54 +291,24 @@ export function HabitForm() {
               </span>
             ))}
           </div>
-          <div className="mt-2 flex gap-1.5">
-            <div className="flex-1 flex items-center gap-1.5 bg-bg2 border border-border rounded-sm px-1.5 py-0.5 min-w-0">
+          <div className="mt-2 flex gap-1.5 flex-wrap">
+            <div className="flex-1 flex items-center gap-1.5 bg-bg2 border border-border rounded-sm px-1.5 py-0.5 min-w-[140px]">
               <input
                 value={newRoutine}
                 onChange={(e) => setNewRoutine(e.target.value)}
                 placeholder="name"
                 className="flex-1 min-w-0 bg-transparent text-xs text-fg placeholder:text-muted focus:outline-none"
               />
-              <div className="relative shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setIconPickerOpen((v) => !v)}
-                  className="flex items-center justify-center w-6 h-6 border border-border rounded-sm text-accent hover:border-accent"
-                  title="pick icon (lucide · open source)"
-                  aria-label="pick routine icon"
-                >
-                  <RoutineIcon icon={newRoutineIcon} className="w-3.5 h-3.5" />
-                </button>
-                {iconPickerOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setIconPickerOpen(false)} />
-                    <div className="absolute right-0 bottom-full mb-1 z-50 bg-panel border border-border rounded-sm p-1.5 grid grid-cols-8 gap-0.5 shadow-lg fade-in max-w-[240px]">
-                      {ROUTINE_ICON_KEYS.map((key) => {
-                        const Cmp = ROUTINE_ICONS[key]
-                        return (
-                          <button
-                            key={key}
-                            type="button"
-                            title={key}
-                            onClick={() => {
-                              setNewRoutineIcon(key)
-                              setIconPickerOpen(false)
-                            }}
-                            className={cn(
-                              'w-6 h-6 flex items-center justify-center rounded-sm hover:bg-bg2',
-                              newRoutineIcon === key
-                                ? 'text-accent bg-accent/10 border border-accent'
-                                : 'text-dim hover:text-fg border border-transparent',
-                            )}
-                          >
-                            <Cmp className="w-3.5 h-3.5" />
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </>
-                )}
-              </div>
+              <button
+                type="button"
+                onClick={() => setIconPickerOpen((v) => !v)}
+                className="flex items-center justify-center w-7 h-7 border border-border rounded-sm text-accent hover:border-accent shrink-0"
+                title="pick icon (lucide · open source)"
+                aria-label="pick routine icon"
+                aria-expanded={iconPickerOpen}
+              >
+                <RoutineIcon icon={newRoutineIcon} className="w-4 h-4" />
+              </button>
             </div>
             <button
               type="button"
@@ -348,12 +318,39 @@ export function HabitForm() {
                 setRoutineId(id)
                 setNewRoutine('')
                 setNewRoutineIcon(DEFAULT_ROUTINE_ICON)
+                setIconPickerOpen(false)
               }}
               className="px-2 py-1 border border-border rounded-sm text-xs text-dim hover:text-accent hover:border-accent"
             >
               add
             </button>
           </div>
+          {iconPickerOpen && (
+            <div className="mt-1.5 border border-border bg-bg2 rounded-sm p-1.5 grid grid-cols-8 sm:grid-cols-10 gap-1 fade-in">
+              {ROUTINE_ICON_KEYS.map((key) => {
+                const Cmp = ROUTINE_ICONS[key]
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    title={key}
+                    onClick={() => {
+                      setNewRoutineIcon(key)
+                      setIconPickerOpen(false)
+                    }}
+                    className={cn(
+                      'w-8 h-8 flex items-center justify-center rounded-sm border transition-colors',
+                      newRoutineIcon === key
+                        ? 'text-accent bg-accent/10 border-accent'
+                        : 'text-fg border-border hover:text-accent hover:border-accent',
+                    )}
+                  >
+                    <Cmp className="w-4 h-4" strokeWidth={2.25} />
+                  </button>
+                )
+              })}
+            </div>
+          )}
         </div>
 
         </div>
