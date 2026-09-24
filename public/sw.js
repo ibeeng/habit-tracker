@@ -1,8 +1,8 @@
-/* init.Habits service worker — offline shell cache.
+/* Rootine service worker — offline shell cache.
  * Relative paths so it works under a base path (GitHub Pages /habit-tracker/).
  * Bump CACHE_VERSION saat ganti aset.
  */
-const CACHE_VERSION = 'inithabits-v2'
+const CACHE_VERSION = 'rootine-v1'
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png']
 
 self.addEventListener('install', (event) => {

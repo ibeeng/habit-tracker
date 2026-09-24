@@ -1,11 +1,19 @@
-# init.Habits
+# Rootine
 
-Habit tracker terminal-style — local-first PWA.
+Habit tracker terminal-style — local-first PWA. Ikon: lucide Sprout (ISC).
 
 **Live:** https://ibeeng.github.io/habit-tracker/
 
 ## Stack
-React 19 · Vite 6 · TypeScript · Tailwind 4 · localStorage
+React 19 · Vite 6 · TypeScript · Tailwind 4 · localStorage · Google Sign-In (GIS)
+
+## Setup (login Google)
+1. Buat **OAuth Client ID (Web)** di [Google Cloud Credentials](https://console.cloud.google.com/apis/credentials)
+2. Authorized JavaScript origins:
+   - dev: `http://localhost:3001`
+   - prod: `https://ibeeng.github.io`
+3. Local: copy `.env.example` → `.env`, isi `VITE_GOOGLE_CLIENT_ID`
+4. GitHub: set repo secret `VITE_GOOGLE_CLIENT_ID` (Settings → Secrets → Actions)
 
 ## Run
 ```bash

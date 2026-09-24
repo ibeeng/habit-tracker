@@ -244,7 +244,7 @@ function TimerControl({ habit }: { habit: Habit }) {
   const notifyTimerDone = useCallback(() => {
     try {
       if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Habit Tracker', {
+        new Notification('Rootine', {
           body: `Timer "${habit.name}" selesai — ${target} menit`,
           silent: false,
           tag: `timer-${habit.id}-${today}`,

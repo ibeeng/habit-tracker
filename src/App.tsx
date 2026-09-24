@@ -7,9 +7,12 @@ import { TodayView } from './components/today/TodayView'
 import { HabitsView } from './components/habits/HabitsView'
 import { HabitForm } from './components/habits/HabitForm'
 import { StatsView } from './components/stats/StatsView'
+import { LoginScreen } from './components/auth/LoginScreen'
 import { useHabits } from './store/useHabits'
+import { useAuth } from './store/auth'
 
 export default function App() {
+  const { user } = useAuth()
   const {
     tab,
     setTab,
@@ -25,6 +28,7 @@ export default function App() {
   } = useHabits()
 
   useEffect(() => {
+    if (!user) return
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement
       const typing =
@@ -104,7 +108,7 @@ export default function App() {
           const blob = new Blob([exportJson()], { type: 'application/json' })
           const a = document.createElement('a')
           a.href = URL.createObjectURL(blob)
-          a.download = `habit-tracker-backup-${new Date().toISOString().slice(0, 10)}.json`
+          a.download = `rootine-backup-${new Date().toISOString().slice(0, 10)}.json`
           a.click()
           URL.revokeObjectURL(a.href)
           break
@@ -114,6 +118,7 @@ export default function App() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [
+    user,
     dueToday,
     selectedId,
     setSelectedId,
@@ -126,6 +131,10 @@ export default function App() {
     setTheme,
     exportJson,
   ])
+
+  if (!user) {
+    return <LoginScreen />
+  }
 
   return (
     <div className="min-h-dvh flex flex-col bg-bg text-fg font-mono overflow-x-clip">

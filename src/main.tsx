@@ -3,11 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { HabitsProvider } from './store/useHabits'
+import { AuthProvider } from './store/auth'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <HabitsProvider>
-      <App />
-    </HabitsProvider>
+    <AuthProvider>
+      <HabitsProvider>
+        <App />
+      </HabitsProvider>
+    </AuthProvider>
   </StrictMode>,
 )

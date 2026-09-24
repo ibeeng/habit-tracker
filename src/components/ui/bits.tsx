@@ -37,7 +37,7 @@ export function Panel({
 export function PromptLine({ children }: { children: React.ReactNode }) {
   return (
     <div className="text-xs text-dim">
-      <span className="text-accent">you@init.Habits</span>
+      <span className="text-accent">you@rootine</span>
       <span className="text-accent2"> $ </span>
       {children}
     </div>

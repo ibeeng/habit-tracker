@@ -1,7 +1,7 @@
 {
-  "name": "init.Habits — Terminal Habit Tracker",
-  "short_name": "init.Habits",
-  "description": "A habit tracker that looks like a terminal. Local-first, keyboard-driven, streaks + shields.",
+  "name": "Rootine — Terminal Habit Tracker",
+  "short_name": "Rootine",
+  "description": "Rootine: a habit tracker that looks like a terminal. Local-first, keyboard-driven, streaks + shields.",
   "id": "./",
   "start_url": "./",
   "scope": "./",

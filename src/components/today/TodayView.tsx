@@ -48,11 +48,11 @@ export function TodayView() {
             {' to create your first habit.'}
           </p>
           <pre className="mt-4 text-[10px] sm:text-[11px] text-muted leading-tight overflow-x-auto max-w-full">{`
- _   _ _   _ _ _
-| | | | |_(_) | |_   version 0.1.0
-| |_| | __| | | __|  local-first
-|  _  | |_| | | |_   no account · no cloud
-|_| |_|\\__|_|_|\\__|  your data stays here
+                 _   _
+ _ __ ___   ___ | |_(_)_ __   ___   version 0.1.0
+| '__/ _ \\ / _ \\| __| | '_ \\ / _ \\  local-first
+| | | (_) | (_) | |_| | | | |  __/  no account · no cloud
+|_|  \\___/ \\___/ \\__|_|_| |_|\\___|  your data stays here
 `}</pre>
         </Panel>
       </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Moon, Sun, Download, Upload, Plus, Terminal, MoreVertical } from 'lucide-react'
+import { Moon, Sun, Download, Upload, Plus, Sprout, MoreVertical, LogOut } from 'lucide-react'
 import { useHabits, type Tab } from '../../store/useHabits'
+import { useAuth } from '../../store/auth'
 import { THEMES } from '../../themes'
 import { levelInfo } from '../../lib/xp'
 import { isoToday, formatDate } from '../../lib/dates'
@@ -15,6 +16,7 @@ const TABS: { id: Tab; key: string; label: string }[] = [
 export function Header() {
   const { tab, setTab, state, setTheme, setOpenForm, exportJson, importJson, resetAll } =
     useHabits()
+  const { user, signOut } = useAuth()
   const [themeOpen, setThemeOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const lvl = levelInfo(state.xp)
@@ -41,7 +43,7 @@ export function Header() {
     const blob = new Blob([exportJson()], { type: 'application/json' })
     const a = document.createElement('a')
     a.href = URL.createObjectURL(blob)
-    a.download = `habit-tracker-${isoToday()}.json`
+    a.download = `rootine-${isoToday()}.json`
     a.click()
     URL.revokeObjectURL(a.href)
     setMenuOpen(false)
@@ -52,10 +54,18 @@ export function Header() {
       <div className="max-w-3xl mx-auto px-3 sm:px-6 py-2.5 flex items-center gap-2">
         {/* logo */}
         <div className="flex items-center gap-1.5 min-w-0 mr-auto">
-          <Terminal className="w-4 h-4 text-accent shrink-0" />
+          <Sprout className="w-4 h-4 text-accent shrink-0" />
           <span className="font-bold text-accent tracking-tight text-sm sm:text-base truncate">
-            init.Habits
+            Rootine
           </span>
+          {user && (
+            <span
+              className="hidden sm:inline text-[10px] text-dim truncate max-w-28"
+              title={user.email || user.name}
+            >
+              @{user.name.split(' ')[0].toLowerCase()}
+            </span>
+          )}
         </div>
 
         {/* desktop tabs */}
@@ -159,6 +169,16 @@ export function Header() {
                     className="w-full text-left px-2 py-1.5 text-xs rounded-sm text-danger hover:bg-bg2 flex items-center gap-2"
                   >
                     reset data
+                  </button>
+                  <button
+                    onClick={() => {
+                      signOut()
+                      setMenuOpen(false)
+                    }}
+                    className="w-full text-left px-2 py-1.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2 border-t border-border mt-1 pt-2"
+                    title={user?.email}
+                  >
+                    <LogOut className="w-3.5 h-3.5" /> sign out
                   </button>
                 </div>
               </>
