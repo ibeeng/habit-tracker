@@ -6,6 +6,7 @@ import { Toaster } from './components/layout/Toaster'
 import { TodayView } from './components/today/TodayView'
 import { HabitsView } from './components/habits/HabitsView'
 import { HabitForm } from './components/habits/HabitForm'
+import { TemplatePicker } from './components/templates/TemplatePicker'
 import { StatsView } from './components/stats/StatsView'
 import { LoginScreen } from './components/auth/LoginScreen'
 import { SyncModal } from './components/sync/SyncModal'
@@ -161,6 +162,7 @@ export default function App() {
       <BottomNav />
       {openForm && <HabitForm />}
       <SyncModal />
+      <TemplatePicker />
       <KeyboardHelp />
       <Toaster />
     </div>

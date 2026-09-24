@@ -17,6 +17,7 @@ import { normalizeRoutineIcon } from '../lib/routine-icons'
 import { calculateStreak, reconcileShields } from '../lib/streaks'
 import { XP_PER_COMPLETION, grantAchievements, type Achievement } from '../lib/xp'
 import { applyTheme } from '../themes'
+import { TEMPLATES } from '../lib/templates'
 
 export type Tab = 'today' | 'stats' | 'habits'
 
@@ -37,6 +38,8 @@ interface HabitsContextValue {
   dueToday: Habit[]
   openForm: Habit | 'new' | null
   setOpenForm: (v: Habit | 'new' | null) => void
+  openTemplatePicker: boolean
+  setOpenTemplatePicker: (v: boolean) => void
   setTheme: (id: string) => void
   completeHabit: (habit: Habit, delta?: number) => void
   setValue: (habit: Habit, value: number) => void
@@ -46,6 +49,7 @@ interface HabitsContextValue {
   deleteHabit: (id: string) => void
   addRoutine: (input: RoutineInput) => string
   deleteRoutine: (id: string) => void
+  applyTemplate: (templateId: string) => void
   exportJson: () => string
   importJson: (json: string) => void
   applyRemoteState: (next: AppState) => void
@@ -76,6 +80,7 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [toasts, setToasts] = useState<Toast[]>([])
   const [openForm, setOpenForm] = useState<Habit | 'new' | null>(null)
+  const [openTemplatePicker, setOpenTemplatePicker] = useState(false)
   const booted = useRef(false)
 
   // persist
@@ -323,6 +328,53 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
     toast('[ok] state reset')
   }, [toast])
 
+  const applyTemplate = useCallback(
+    (templateId: string) => {
+      setState((prev) => {
+        const template = TEMPLATES.find((t) => t.id === templateId)
+        if (!template) return prev
+
+        // Create routines first
+        const routineMap = new Map<string, string>()
+        const newRoutines: Routine[] = [...prev.routines]
+        for (const r of template.routines) {
+          const id = crypto.randomUUID()
+          routineMap.set(r.ref, id)
+          newRoutines.push({
+            id,
+            name: r.name,
+            icon: normalizeRoutineIcon(r.icon, r.name),
+          })
+        }
+
+        // Create habits
+        const newHabits: Habit[] = [...prev.habits]
+        for (const h of template.habits) {
+          const habit: Habit = {
+            id: crypto.randomUUID(),
+            name: h.name,
+            mode: h.mode,
+            schedule: h.schedule,
+            goal: h.goal,
+            unit: h.unit,
+            routineId: h.routineRef ? routineMap.get(h.routineRef) ?? null : null,
+            createdAt: new Date().toISOString(),
+          }
+          newHabits.push(habit)
+        }
+
+        return setStateWithAchievements({
+          ...prev,
+          routines: newRoutines,
+          habits: newHabits,
+        })
+      })
+      setOpenTemplatePicker(false)
+      toast(`[ok] template "${templateId}" applied`)
+    },
+    [setStateWithAchievements, toast],
+  )
+
   const value: HabitsContextValue = {
     state,
     tab,
@@ -334,6 +386,8 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
     dueToday,
     openForm,
     setOpenForm,
+    openTemplatePicker,
+    setOpenTemplatePicker,
     setTheme,
     completeHabit,
     setValue,
@@ -343,6 +397,7 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
     deleteHabit,
     addRoutine,
     deleteRoutine,
+    applyTemplate,
     exportJson,
     importJson,
     applyRemoteState,

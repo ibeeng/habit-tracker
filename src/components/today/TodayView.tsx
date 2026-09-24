@@ -9,7 +9,7 @@ import { RoutineIcon } from '../../lib/routine-icons'
 import { HabitRow } from './HabitRow'
 
 export function TodayView() {
-  const { state, dueToday, selectedId, setSelectedId, setOpenForm } = useHabits()
+  const { state, dueToday, selectedId, setSelectedId, setOpenForm, setOpenTemplatePicker } = useHabits()
   const today = isoToday()
   const lvl = levelInfo(state.xp)
 
@@ -46,7 +46,14 @@ export function TodayView() {
             >
               $ init --day-1
             </button>
-            {' to create your first habit.'}
+            {' to create your first habit, or '}
+            <button
+              onClick={() => setOpenTemplatePicker(true)}
+              className="text-accent2 underline underline-offset-2 hover:opacity-80"
+            >
+              browse templates
+            </button>
+            {' for quick start.'}
           </p>
           <pre className="mt-4 text-[10px] sm:text-[11px] text-muted leading-tight overflow-x-auto max-w-full">{`
                  _   _
