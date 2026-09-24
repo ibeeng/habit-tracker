@@ -3,7 +3,6 @@ import { Moon, Sun, Download, Upload, Plus, Sprout, MoreVertical, LogOut, Cloud,
 import { useHabits, type Tab } from '../../store/useHabits'
 import { useAuth } from '../../store/auth'
 import { useSync } from '../../store/sync'
-import { SyncModal } from '../sync/SyncModal'
 import { THEMES } from '../../themes'
 import { levelInfo } from '../../lib/xp'
 import { isoToday, formatDate } from '../../lib/dates'
@@ -240,8 +239,6 @@ export function Header() {
           </span>
         </span>
       </div>
-
-      <SyncModal />
     </header>
   )
 }

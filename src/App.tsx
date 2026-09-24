@@ -8,6 +8,7 @@ import { HabitsView } from './components/habits/HabitsView'
 import { HabitForm } from './components/habits/HabitForm'
 import { StatsView } from './components/stats/StatsView'
 import { LoginScreen } from './components/auth/LoginScreen'
+import { SyncModal } from './components/sync/SyncModal'
 import { useHabits } from './store/useHabits'
 import { useAuth } from './store/auth'
 
@@ -159,6 +160,7 @@ export default function App() {
 
       <BottomNav />
       {openForm && <HabitForm />}
+      <SyncModal />
       <KeyboardHelp />
       <Toaster />
     </div>
