@@ -8,7 +8,13 @@ export interface AuthUser {
   exp: number
 }
 
-export const GOOGLE_CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID ?? ''
+// OAuth client ID is public by design (embedded in frontend).
+// VITE_GOOGLE_CLIENT_ID overrides when set (local .env / CI secret).
+const FALLBACK_CLIENT_ID =
+  '561242860865-dvvp42mpaumgvdln8k4odjt09kgtn0bc.apps.googleusercontent.com'
+
+export const GOOGLE_CLIENT_ID: string =
+  import.meta.env.VITE_GOOGLE_CLIENT_ID || FALLBACK_CLIENT_ID
 
 interface GoogleAccountsId {
   initialize: (cfg: Record<string, unknown>) => void
