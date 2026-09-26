@@ -1,16 +1,35 @@
 import { useEffect, useRef, useState } from 'react'
 import { Sprout } from 'lucide-react'
 import { loadGoogleSdk, renderGoogleButton } from '../../lib/auth'
+import { isNative, signInWithGoogleNative } from '../../lib/auth-native'
 import { useAuth } from '../../store/auth'
 
 export function LoginScreen() {
   const { clientId, signIn } = useAuth()
   const mountRef = useRef<HTMLDivElement>(null)
-  const renderedRef = useRef(false)
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
+  const [armed, setArmed] = useState(false)
+  const [gisReady, setGisReady] = useState(false)
 
+  // Android: Google blocks the consent screen inside a WebView, so the flow runs
+  // in a Custom Tab and returns through the app scheme (see lib/auth-native)
+  const startNativeLogin = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      signIn(await signInWithGoogleNative())
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'login gagal')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // GIS is a heavy third-party script — only pulled after the user asks for
+  // it, so the app shell paints without waiting on accounts.google.com
   useEffect(() => {
+    if (!armed || isNative()) return
     if (!clientId) {
       setError('VITE_GOOGLE_CLIENT_ID belum di-set — cek .env / GitHub secret')
       setLoading(false)
@@ -20,13 +39,14 @@ export function LoginScreen() {
     let cancelled = false
     ;(async () => {
       try {
+        setLoading(true)
         await loadGoogleSdk()
         if (cancelled) return
         const mount = mountRef.current
         if (!mount) return
         // clear any prior GIS nodes (StrictMode double-effect / remount)
         mount.replaceChildren()
-        renderedRef.current = true
+        setGisReady(true)
         renderGoogleButton(
           mount,
           clientId,
@@ -47,7 +67,7 @@ export function LoginScreen() {
     return () => {
       cancelled = true
     }
-  }, [clientId, signIn])
+  }, [armed, clientId, signIn])
 
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center bg-bg text-fg font-mono px-4">
@@ -72,16 +92,24 @@ export function LoginScreen() {
           <div className="flex justify-center min-h-11">
             {loading && !error && (
               <span className="text-[11px] text-dim animate-pulse self-center">
-                loading google sign-in…
+                {isNative() ? 'opening google sign-in…' : 'loading google sign-in…'}
               </span>
             )}
             <div ref={mountRef} />
+            {!gisReady && !loading && !error && (
+              <button
+                onClick={() => (isNative() ? startNativeLogin() : setArmed(true))}
+                className="w-full px-4 py-2.5 text-xs font-bold rounded-sm bg-accent text-bg hover:opacity-90 transition-opacity"
+              >
+                continue with google
+              </button>
+            )}
           </div>
 
           {error && <p className="text-xs text-danger text-center break-words">{error}</p>}
 
           <p className="text-[10px] text-muted text-center leading-relaxed">
-            data disimpan lokal di browser kamu
+            {isNative() ? 'data disimpan lokal di perangkat kamu' : 'data disimpan lokal di browser kamu'}
           </p>
         </div>
 

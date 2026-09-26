@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Rootine</string>
+    <string name="title_activity_main">Rootine</string>
+    <string name="package_name">com.waalid.rootine</string>
+    <string name="custom_url_scheme">com.waalid.rootine</string>
+</resources>

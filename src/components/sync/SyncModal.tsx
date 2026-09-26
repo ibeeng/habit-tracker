@@ -108,7 +108,7 @@ export function SyncModal() {
 
         <div
           className="px-4 py-4 overflow-y-auto overscroll-contain"
-          style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+          style={{ paddingBottom: 'max(1rem, var(--sab))' }}
         >
         {(localError || error) && (
           <p className="text-xs text-danger mb-3 border border-danger/40 bg-danger/10 rounded-sm px-2 py-1.5">

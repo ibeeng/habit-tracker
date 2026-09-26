@@ -32,7 +32,7 @@ export function TemplatePicker() {
 
         <div
           className="px-4 py-4 overflow-y-auto overscroll-contain"
-          style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+          style={{ paddingBottom: 'max(1rem, var(--sab))' }}
         >
           <p className="text-xs text-dim mb-4">
             Pick a preset to instantly create routines + habits. You can edit or delete them
@@ -98,7 +98,7 @@ export function TemplatePicker() {
 
         <div
           className="flex gap-2 justify-end border-t border-border px-4 py-3 shrink-0"
-          style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+          style={{ paddingBottom: 'max(0.75rem, var(--sab))' }}
         >
           <button
             type="button"

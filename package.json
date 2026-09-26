@@ -4,13 +4,20 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3001 --host=0.0.0.0",
+    "dev": "vite --port=3001 --host 0.0.0.0",
     "build": "tsc && vite build",
+    "build:android": "VITE_NATIVE=1 APP_BASE=./ tsc && VITE_NATIVE=1 APP_BASE=./ vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "android:add": "cap add android",
+    "android:sync": "npm run build:android && cap sync android",
+    "android:apk": "npm run android:sync && bash scripts/android-build.sh assembleRelease",
+    "android:debug": "npm run android:sync && bash scripts/android-build.sh installDebug",
+    "android:open": "cap open android"
   },
   "dependencies": {
+    "@capgo/capacitor-social-login": "^8.5.11",
     "@fontsource-variable/jetbrains-mono": "^5.2.5",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -20,6 +27,9 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
     "@tailwindcss/vite": "^4.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
