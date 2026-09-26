@@ -12,6 +12,7 @@ const TABS: { id: Tab; key: string; label: string }[] = [
   { id: 'today', key: '1', label: 'today' },
   { id: 'stats', key: '2', label: 'stats' },
   { id: 'habits', key: '3', label: 'all' },
+  { id: 'journal', key: '4', label: 'journal' },
 ]
 
 export function Header() {
@@ -52,40 +53,40 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-bg2/90 backdrop-blur">
+    <header
+      className="sticky top-0 z-40 border-b border-border bg-bg2/90 backdrop-blur"
+      style={{ paddingTop: 'var(--sat)' }}
+    >
       <div className="max-w-3xl mx-auto px-3 sm:px-6 py-2.5 flex items-center gap-2">
         {/* logo */}
-        <div className="flex items-center gap-1.5 min-w-0 mr-auto">
+        <div className="flex items-center gap-1.5 min-w-0 shrink-0">
           <Sprout className="w-4 h-4 text-accent shrink-0" />
-          <span className="font-bold text-accent tracking-tight text-sm sm:text-base truncate">
+          <span className="font-bold text-accent tracking-tight text-sm sm:text-base whitespace-nowrap">
             Rootine
           </span>
         </div>
 
         {/* desktop tabs */}
-        <nav className="hidden sm:flex gap-1">
+        <nav className="hidden sm:flex gap-0.5 ml-auto min-w-0">
           {TABS.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
               className={cn(
-                'px-2.5 py-1 text-xs rounded-sm border transition-colors',
+                'px-1.5 py-0.5 text-[11px] rounded-sm border whitespace-nowrap transition-colors tnum',
                 tab === t.id
                   ? 'border-accent text-accent bg-accent/10'
                   : 'border-transparent text-dim hover:text-fg hover:border-border',
               )}
             >
-              <span className="opacity-50 mr-1">{t.key}</span>
+              <span className="opacity-40 mr-0.5">{t.key}</span>
               {t.label}
             </button>
           ))}
         </nav>
 
-        <div className="flex items-center gap-1.5 shrink-0">
-          <span className="hidden sm:inline text-[11px] text-dim tnum label-caps">
-            lv {lvl.level} · {lvl.intoLevel}/{lvl.needForNext} xp
-          </span>
-          <span className="text-[11px] text-warn tnum" title="shields">
+        <div className="flex items-center gap-1.5 shrink-0 ml-auto">
+          <span className="text-warn text-[11px] tnum whitespace-nowrap" title="shields">
             ◆{state.shields}
           </span>
 
@@ -213,7 +214,7 @@ export function Header() {
           {/* desktop new habit */}
           <button
             onClick={() => setOpenForm('new')}
-            className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 text-xs rounded-sm bg-accent text-bg font-bold hover:opacity-90 transition-opacity"
+            className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-[11px] rounded-sm bg-accent text-bg font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
             title="new habit (n)"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -223,12 +224,15 @@ export function Header() {
       </div>
 
       {/* date line */}
-      <div className="max-w-3xl mx-auto px-3 sm:px-6 pb-1.5 text-[11px] text-dim">
-        <span className="truncate block">
+      <div className="max-w-3xl mx-auto px-3 sm:px-6 pb-1.5 text-[11px] text-dim flex items-center gap-2 flex-wrap">
+        <span className="truncate">
           {formatDate(new Date(), 'EEE, MMM d yyyy')} ·{' '}
           <span className="text-accent tnum">
             {Math.floor((Date.now() - Date.parse(new Date().getFullYear() + '-01-01')) / 86400000) + 1}
           </span>
+        </span>
+        <span className="hidden sm:inline text-muted tnum whitespace-nowrap">
+          · lv {lvl.level} {lvl.intoLevel}/{lvl.needForNext} xp
         </span>
       </div>
     </header>
