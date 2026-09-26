@@ -7,6 +7,7 @@ export interface HabitTemplate {
   goal?: number
   unit?: string
   routineRef?: string // reference to routine in same template
+  notes?: string
 }
 
 export interface TemplatePreset {

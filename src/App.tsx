@@ -4,10 +4,12 @@ import { BottomNav } from './components/layout/BottomNav'
 import { KeyboardHelp } from './components/layout/KeyboardHelp'
 import { Toaster } from './components/layout/Toaster'
 import { TodayView } from './components/today/TodayView'
+import { JournalSheet } from './components/today/JournalSheet'
 import { HabitsView } from './components/habits/HabitsView'
 import { HabitForm } from './components/habits/HabitForm'
 import { TemplatePicker } from './components/templates/TemplatePicker'
 import { StatsView } from './components/stats/StatsView'
+import { JournalView } from './components/journal/JournalView'
 import { LoginScreen } from './components/auth/LoginScreen'
 import { SyncModal } from './components/sync/SyncModal'
 import { useHabits } from './store/useHabits'
@@ -27,7 +29,11 @@ export default function App() {
     state,
     setTheme,
     exportJson,
+    journalId,
+    closeJournal,
   } = useHabits()
+
+  const journalHabit = state.habits.find((h) => h.id === journalId) ?? null
 
   useEffect(() => {
     if (!user) return
@@ -36,6 +42,8 @@ export default function App() {
       const typing =
         target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable
       if (typing || openForm) return
+      // while the journal editor is open only Esc is handled here
+      if (journalId && e.key !== 'Escape') return
 
       const idx = dueToday.findIndex((h) => h.id === selectedId)
 
@@ -51,6 +59,10 @@ export default function App() {
         case '3':
         case 'h':
           setTab('habits')
+          break
+        case '4':
+        case 'd':
+          setTab('journal')
           break
         case 'j':
         case 'ArrowDown': {
@@ -87,7 +99,8 @@ export default function App() {
           window.dispatchEvent(new CustomEvent('toggle-help'))
           break
         case 'Escape':
-          setOpenForm(null)
+          if (journalId) closeJournal()
+          else setOpenForm(null)
           break
         case 'r': {
           const themes = [
@@ -132,6 +145,8 @@ export default function App() {
     state.settings.theme,
     setTheme,
     exportJson,
+    journalId,
+    closeJournal,
   ])
 
   if (!user) {
@@ -145,6 +160,7 @@ export default function App() {
         {tab === 'today' && <TodayView />}
         {tab === 'stats' && <StatsView />}
         {tab === 'habits' && <HabitsView />}
+        {tab === 'journal' && <JournalView />}
       </main>
 
       {/* desktop footer */}
@@ -161,6 +177,7 @@ export default function App() {
 
       <BottomNav />
       {openForm && <HabitForm />}
+      {journalHabit && <JournalSheet key={journalHabit.id} habit={journalHabit} onClose={closeJournal} />}
       <SyncModal />
       <TemplatePicker />
       <KeyboardHelp />

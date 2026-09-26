@@ -19,7 +19,7 @@ import { XP_PER_COMPLETION, grantAchievements, type Achievement } from '../lib/x
 import { applyTheme } from '../themes'
 import { TEMPLATES } from '../lib/templates'
 
-export type Tab = 'today' | 'stats' | 'habits'
+export type Tab = 'today' | 'stats' | 'habits' | 'journal'
 
 export interface Toast {
   id: number
@@ -38,11 +38,24 @@ interface HabitsContextValue {
   dueToday: Habit[]
   openForm: Habit | 'new' | null
   setOpenForm: (v: Habit | 'new' | null) => void
+  /** preset mode for the next new-habit form (from the journal tab) */
+  formMode: TrackingMode | null
+  /** open the habit form for a new habit, optionally with a preset mode */
+  openNewHabit: (mode?: TrackingMode) => void
   openTemplatePicker: boolean
   setOpenTemplatePicker: (v: boolean) => void
   setTheme: (id: string) => void
   completeHabit: (habit: Habit, delta?: number) => void
   setValue: (habit: Habit, value: number) => void
+  /** journal habits: save the written entry (empty text clears the day) */
+  saveJournal: (habit: Habit, text: string, date?: string) => void
+  /** currently open journal editor (null = closed) */
+  journalId: string | null
+  /** day being edited in the journal editor */
+  journalDate: string
+  openJournal: (habit: Habit, date?: string) => void
+  closeJournal: () => void
+  setJournalDate: (date: string) => void
   addHabit: (input: HabitInput) => void
   updateHabit: (id: string, input: HabitInput) => void
   archiveHabit: (id: string) => void
@@ -63,6 +76,7 @@ export interface HabitInput {
   goal?: number
   unit?: string
   routineId?: string | null
+  notes?: string
 }
 
 export interface RoutineInput {
@@ -80,12 +94,21 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [toasts, setToasts] = useState<Toast[]>([])
   const [openForm, setOpenForm] = useState<Habit | 'new' | null>(null)
+  const [formMode, setFormMode] = useState<TrackingMode | null>(null)
   const [openTemplatePicker, setOpenTemplatePicker] = useState(false)
+  const [journalId, setJournalId] = useState<string | null>(null)
+  const [journalDate, setJournalDate] = useState<string>(() => isoToday())
   const booted = useRef(false)
 
-  // persist
+  // persist — debounced so rapid toggles don't serialise the whole state
+  // on every keystroke (state grows with journal text)
+  const saveTimer = useRef<number | null>(null)
   useEffect(() => {
-    saveState(state)
+    if (saveTimer.current !== null) window.clearTimeout(saveTimer.current)
+    saveTimer.current = window.setTimeout(() => saveState(state), 250)
+    return () => {
+      if (saveTimer.current !== null) window.clearTimeout(saveTimer.current)
+    }
   }, [state])
 
   // theme
@@ -127,6 +150,12 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
 
   const completeHabit = useCallback(
     (habit: Habit, delta = 1) => {
+      // journal habits are completed by writing text (saveJournal), not by
+      // incrementing a counter — a bare value:1 would be a phantom completion
+      if (habit.mode === 'journal') {
+        setJournalId(habit.id)
+        return
+      }
       setState((prev) => {
         const today = isoToday()
         const key = completionKey(habit.id, today)
@@ -205,6 +234,50 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
+  /**
+   * Journal habits store the written entry in `completions[key].note`.
+   * `value` stays at 1 so streak / xp / achievements / stats / heatmap logic
+   * is untouched. Empty (or whitespace) text clears the entry and un-completes
+   * the day. `date` defaults to today so past days can be written too.
+   */
+  const saveJournal = useCallback((habit: Habit, text: string, date?: string) => {
+    const day = date ?? isoToday()
+    setState((prev) => {
+      const key = completionKey(habit.id, day)
+      const body = text.trim()
+      const completions = { ...prev.completions }
+
+      if (!body) {
+        if (!completions[key]) return prev
+        delete completions[key]
+        const xp = Math.max(0, prev.xp - XP_PER_COMPLETION)
+        return { ...prev, completions, xp }
+      }
+
+      const wasDone = (prev.completions[key]?.value ?? 0) > 0
+      completions[key] = {
+        habitId: habit.id,
+        date: day,
+        value: 1,
+        updatedAt: new Date().toISOString(),
+        note: text,
+      }
+      const xp = wasDone ? prev.xp : prev.xp + XP_PER_COMPLETION
+      return { ...prev, completions, xp }
+    })
+  }, [])
+
+  const openJournal = useCallback((habit: Habit, date?: string) => {
+    setJournalId(habit.id)
+    setJournalDate(date ?? isoToday())
+  }, [])
+  const closeJournal = useCallback(() => setJournalId(null), [])
+
+  const openNewHabit = useCallback((mode?: TrackingMode) => {
+    setFormMode(mode ?? null)
+    setOpenForm('new')
+  }, [])
+
   const addHabit = useCallback(
     (input: HabitInput) => {
       setState((prev) => {
@@ -216,11 +289,13 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
           goal: input.goal,
           unit: input.unit,
           routineId: input.routineId ?? null,
+          notes: input.notes?.trim() || undefined,
           createdAt: new Date().toISOString(),
         }
         return setStateWithAchievements({ ...prev, habits: [...prev.habits, habit] })
       })
       setOpenForm(null)
+      setFormMode(null)
       toast(`[ok] habit "${input.name}" created`)
     },
     [setStateWithAchievements, toast],
@@ -240,11 +315,13 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
                 goal: input.goal,
                 unit: input.unit,
                 routineId: input.routineId ?? null,
+                notes: input.notes?.trim() || undefined,
               }
             : h,
         ),
       }))
       setOpenForm(null)
+      setFormMode(null)
       toast(`[ok] habit updated`)
     },
     [toast],
@@ -358,6 +435,7 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
             goal: h.goal,
             unit: h.unit,
             routineId: h.routineRef ? routineMap.get(h.routineRef) ?? null : null,
+            notes: h.notes,
             createdAt: new Date().toISOString(),
           }
           newHabits.push(habit)
@@ -386,11 +464,19 @@ export function HabitsProvider({ children }: { children: ReactNode }) {
     dueToday,
     openForm,
     setOpenForm,
+    formMode,
+    openNewHabit,
     openTemplatePicker,
     setOpenTemplatePicker,
     setTheme,
     completeHabit,
     setValue,
+    saveJournal,
+    journalId,
+    journalDate,
+    openJournal,
+    closeJournal,
+    setJournalDate,
     addHabit,
     updateHabit,
     archiveHabit,

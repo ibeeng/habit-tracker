@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Play, Pause, Square, Minus, Plus } from 'lucide-react'
 import { useHabits } from '../../store/useHabits'
-import { isCompleted, completionValue, type Habit } from '../../lib/models'
+import { isCompleted, completionValue, journalNote, type Habit } from '../../lib/models'
 import { calculateStreak } from '../../lib/streaks'
 import { periodGoal, periodProgress } from '../../lib/schedules'
 import { isoToday } from '../../lib/dates'
@@ -15,7 +15,7 @@ interface Props {
 
 export function HabitRow({ habit, selected, onSelect }: Props) {
   const ctx = useHabits()
-  const { state, completeHabit, setValue, setOpenForm, archiveHabit } = ctx
+  const { state, completeHabit, setValue, setOpenForm, archiveHabit, openJournal } = ctx
   const today = isoToday()
   const done = isCompleted(habit, state.completions, today)
   const value = completionValue(habit, state.completions, today)
@@ -23,6 +23,8 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
   const goal = periodGoal(habit)
   const isWeeklyLike = habit.schedule.type !== 'daily'
   const period = isWeeklyLike ? periodProgress(habit, state.completions, today) : null
+  const note = habit.mode === 'journal' ? journalNote(habit, state.completions, today) : ''
+  const notePreview = note.replace(/\s+/g, ' ').trim()
 
   return (
     <div
@@ -51,12 +53,32 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
         </button>
       )}
 
+      {/* journal: open editor instead of a checkbox */}
+      {habit.mode === 'journal' && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            openJournal(habit)
+          }}
+          className={cn(
+            'text-[10px] font-bold w-8 shrink-0 leading-tight transition-colors text-center',
+            done ? 'text-accent' : 'text-muted group-hover:text-dim',
+          )}
+          aria-label={done ? 'edit journal entry' : 'write journal entry'}
+          title={done ? 'edit journal entry' : 'write journal entry'}
+        >
+          <div>{done ? '[✎]' : '[+]'}</div>
+        </button>
+      )}
+
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2 flex-wrap">
           <span
             className={cn(
               'text-sm truncate',
-              done ? 'text-dim line-through decoration-accent/50' : 'text-fg',
+              done && habit.mode !== 'journal'
+                ? 'text-dim line-through decoration-accent/50'
+                : 'text-fg',
             )}
           >
             {habit.name}
@@ -70,6 +92,44 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
             <span className="text-[10px] text-dim">{habit.unit}</span>
           )}
         </div>
+
+        {/* permanent habit note */}
+        {habit.notes && (
+          <p
+            className="text-[11px] text-dim mt-1 leading-snug line-clamp-1"
+            title={habit.notes}
+          >
+            <span className="text-accent2">#</span> {habit.notes.replace(/\s+/g, ' ').trim()}
+          </p>
+        )}
+
+        {/* journal entry preview */}
+        {habit.mode === 'journal' && (
+          <div className="mt-1">
+            {notePreview ? (
+              <p
+                onClick={(e) => {
+                  e.stopPropagation()
+                  openJournal(habit)
+                }}
+                className="text-[11px] text-dim leading-snug line-clamp-2 cursor-pointer hover:text-accent transition-colors"
+                title={note}
+              >
+                {notePreview}
+              </p>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  openJournal(habit)
+                }}
+                className="text-[10px] text-accent underline underline-offset-2 hover:opacity-80"
+              >
+                + write today's entry
+              </button>
+            )}
+          </div>
+        )}
 
         {/* mode-specific controls */}
         <div className="mt-1 flex items-center gap-2">

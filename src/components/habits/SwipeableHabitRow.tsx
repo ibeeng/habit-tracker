@@ -202,6 +202,14 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
                 ) : null
               })()}
           </div>
+          {habit.notes && (
+            <p
+              className="text-[11px] text-dim mt-1 leading-snug line-clamp-2 whitespace-pre-wrap"
+              title={habit.notes}
+            >
+              <span className="text-accent2">#</span> {habit.notes}
+            </p>
+          )}
         </div>
         <div className="text-right text-xs tnum shrink-0">
           <div className={streak.streak > 0 ? 'text-accent font-bold' : 'text-muted'}>

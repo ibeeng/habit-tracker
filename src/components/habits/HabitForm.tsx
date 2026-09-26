@@ -17,6 +17,7 @@ const MODES: { id: TrackingMode; label: string; hint: string }[] = [
   { id: 'counter', label: '[n/m] counter', hint: 'glasses, reps — with goal' },
   { id: 'number', label: 'number', hint: 'pages, km — target value' },
   { id: 'timer', label: 'timer', hint: 'focused minutes + pomodoro' },
+  { id: 'journal', label: 'journal', hint: 'write a daily entry (saved as text)' },
 ]
 
 const SCHEDULES: { id: ScheduleType; label: string }[] = [
@@ -29,12 +30,12 @@ const SCHEDULES: { id: ScheduleType; label: string }[] = [
 const WEEKDAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa']
 
 export function HabitForm() {
-  const { openForm, setOpenForm, addHabit, updateHabit, state, addRoutine, deleteRoutine } =
+  const { openForm, setOpenForm, addHabit, updateHabit, state, addRoutine, deleteRoutine, formMode } =
     useHabits()
   const editing = openForm && openForm !== 'new' ? openForm : null
 
   const [name, setName] = useState(editing?.name ?? '')
-  const [mode, setMode] = useState<TrackingMode>(editing?.mode ?? 'checkbox')
+  const [mode, setMode] = useState<TrackingMode>(editing?.mode ?? formMode ?? 'checkbox')
   const [scheduleType, setScheduleType] = useState<ScheduleType>(
     editing?.schedule.type ?? 'daily',
   )
@@ -43,6 +44,7 @@ export function HabitForm() {
   const [weekdays, setWeekdays] = useState<number[]>(editing?.schedule.weekdays ?? [])
   const [goal, setGoal] = useState<string>(editing?.goal != null ? String(editing.goal) : '')
   const [unit, setUnit] = useState(editing?.unit ?? '')
+  const [notes, setNotes] = useState(editing?.notes ?? '')
   const [routineId, setRoutineId] = useState<string | null>(editing?.routineId ?? null)
   const [startDate, setStartDate] = useState(editing?.schedule.startDate ?? '')
   const [newRoutine, setNewRoutine] = useState('')
@@ -74,6 +76,7 @@ export function HabitForm() {
       schedule: buildSchedule(),
       goal: goal ? Number(goal) : undefined,
       unit: unit.trim() || undefined,
+      notes: notes.trim() || undefined,
       routineId,
     }
     if (editing) updateHabit(editing.id, input)
@@ -106,7 +109,7 @@ export function HabitForm() {
 
         <div
           className="px-4 py-4 overflow-y-auto overscroll-contain"
-          style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+          style={{ paddingBottom: 'max(1rem, var(--sab))' }}
         >
 
         <label className="block mb-3">
@@ -115,7 +118,7 @@ export function HabitForm() {
             autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="meditate 10 min"
+            placeholder={mode === 'journal' ? 'daily journal' : 'meditate 10 min'}
             className="mt-1 w-full bg-bg2 border border-border rounded-sm px-2.5 py-1.5 text-sm text-fg placeholder:text-muted focus:outline-none focus:border-accent"
           />
         </label>
@@ -223,7 +226,7 @@ export function HabitForm() {
           </div>
         </div>
 
-        {mode !== 'checkbox' && (
+        {mode !== 'checkbox' && mode !== 'journal' && (
           <div className="mb-3 grid grid-cols-2 gap-2">
             <label>
               <span className="label-caps">{goalLabel}</span>
@@ -247,6 +250,21 @@ export function HabitForm() {
             </label>
           </div>
         )}
+
+        <div className="mb-3">
+          <span className="label-caps">notes (optional)</span>
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            rows={3}
+            maxLength={500}
+            placeholder={'// why this habit? purpose, rules, cues\ncatatan tetap — tampil di list habit, bukan harian'}
+            className="mt-1 w-full bg-bg2 border border-border rounded-sm px-2.5 py-1.5 text-sm text-fg placeholder:text-muted focus:outline-none focus:border-accent resize-y leading-relaxed"
+          />
+          <div className="mt-0.5 text-[10px] text-muted tnum text-right">
+            {notes.length}/500
+          </div>
+        </div>
 
         <div className="mb-4">
           <span className="label-caps">routine (optional)</span>
@@ -355,7 +373,7 @@ export function HabitForm() {
 
         </div>
 
-        <div className="flex gap-2 justify-end border-t border-border px-4 py-3 shrink-0" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
+        <div className="flex gap-2 justify-end border-t border-border px-4 py-3 shrink-0" style={{ paddingBottom: 'max(0.75rem, var(--sab))' }}>
           <button
             type="button"
             onClick={close}

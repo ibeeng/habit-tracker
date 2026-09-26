@@ -6,8 +6,8 @@ const KEYS: [string, string][] = [
   ['space / enter', 'toggle complete'],
   ['n', 'new habit'],
   ['e', 'edit selected habit'],
-  ['1 / 2 / 3', 'today / stats / all habits'],
-  ['t / s / h', 'same as above'],
+  ['1 / 2 / 3 / 4', 'today / stats / all habits / journal'],
+  ['t / s / h / d', 'same as above'],
   ['r', 'cycle theme'],
   ['x', 'export backup'],
   ['?', 'toggle this help'],
@@ -49,7 +49,7 @@ export function KeyboardHelp() {
         </div>
         <div
           className="px-4 py-4 overflow-y-auto overscroll-contain"
-          style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+          style={{ paddingBottom: 'max(1rem, var(--sab))' }}
         >
           <ul className="space-y-1.5">
             {KEYS.map(([k, desc]) => (

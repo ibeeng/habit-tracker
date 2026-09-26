@@ -1,4 +1,4 @@
-import { CalendarCheck, BarChart3, ListChecks, Plus } from 'lucide-react'
+import { CalendarCheck, BarChart3, ListChecks, NotebookPen, Plus } from 'lucide-react'
 import { useHabits, type Tab } from '../../store/useHabits'
 import { cn } from '../../lib/utils'
 
@@ -6,6 +6,7 @@ const ITEMS: { id: Tab; label: string; icon: typeof CalendarCheck }[] = [
   { id: 'today', label: 'today', icon: CalendarCheck },
   { id: 'stats', label: 'stats', icon: BarChart3 },
   { id: 'habits', label: 'all', icon: ListChecks },
+  { id: 'journal', label: 'journal', icon: NotebookPen },
 ]
 
 export function BottomNav() {
@@ -14,7 +15,7 @@ export function BottomNav() {
   return (
     <nav
       className="sm:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-bg2/95 backdrop-blur"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      style={{ paddingBottom: 'var(--sab)' }}
       aria-label="primary"
     >
       <div className="flex items-stretch h-14 max-w-lg mx-auto">
