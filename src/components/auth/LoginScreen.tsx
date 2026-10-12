@@ -81,7 +81,7 @@ export function LoginScreen() {
         </div>
 
         <div className="border border-border bg-panel rounded-sm p-5 space-y-4">
-          <div className="text-[11px] text-muted leading-relaxed">
+          <div className="text-[12px] text-muted leading-relaxed">
             <div>
               <span className="text-accent">$</span> rootine --login
             </div>
@@ -91,7 +91,7 @@ export function LoginScreen() {
           {/* loading is a SIBLING of the GIS mount node — React never owns GIS children */}
           <div className="flex justify-center min-h-11">
             {loading && !error && (
-              <span className="text-[11px] text-dim animate-pulse self-center">
+              <span className="text-[12px] text-dim animate-pulse self-center">
                 {isNative() ? 'opening google sign-in…' : 'loading google sign-in…'}
               </span>
             )}
@@ -108,12 +108,12 @@ export function LoginScreen() {
 
           {error && <p className="text-xs text-danger text-center break-words">{error}</p>}
 
-          <p className="text-[10px] text-muted text-center leading-relaxed">
+          <p className="text-[12px] text-muted text-center leading-relaxed">
             {isNative() ? 'data disimpan lokal di perangkat kamu' : 'data disimpan lokal di browser kamu'}
           </p>
         </div>
 
-        <p className="text-center text-[10px] text-muted leading-relaxed">
+        <p className="text-center text-[12px] text-muted leading-relaxed">
           v0.1.0 ·{' '}
           <a href="./privacy.html" className="underline underline-offset-2 hover:text-accent" target="_blank" rel="noreferrer">
             privacy

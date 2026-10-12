@@ -114,14 +114,14 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
       <div className="absolute inset-y-0 right-0 flex items-center gap-1 px-2">
         <button
           onClick={() => handleAction(() => setOpenForm(habit))}
-          className="w-10 h-10 flex items-center justify-center text-accent active:opacity-70"
+          className="w-11 h-11 flex items-center justify-center text-accent active:opacity-70"
           title="edit"
         >
           <Pencil className="w-4 h-4" />
         </button>
         <button
           onClick={() => handleAction(() => archiveHabit(habit.id))}
-          className="w-10 h-10 flex items-center justify-center text-warn active:opacity-70"
+          className="w-11 h-11 flex items-center justify-center text-warn active:opacity-70"
           title={habit.archived ? 'restore' : 'archive'}
         >
           {habit.archived ? (
@@ -132,7 +132,7 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
         </button>
         <button
           onClick={() => handleAction(() => deleteHabit(habit.id))}
-          className="w-10 h-10 flex items-center justify-center text-danger active:opacity-70"
+          className="w-11 h-11 flex items-center justify-center text-danger active:opacity-70"
           title="delete"
         >
           <Trash2 className="w-4 h-4" />
@@ -142,7 +142,7 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
       {/* Main content (swipeable) */}
       <div
         className={cn(
-          'relative flex items-center gap-3 px-2.5 py-2 bg-panel cursor-pointer',
+          'relative flex items-center gap-2 px-2 py-2.5 bg-panel cursor-pointer',
           isDragging ? '' : 'transition-transform duration-200 ease-out',
         )}
         style={{ transform: `translateX(${offset}px)` }}
@@ -170,7 +170,7 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
               e.stopPropagation()
               onToggleMultiSelect()
             }}
-            className="w-5 h-5 shrink-0"
+            className="w-11 h-11 shrink-0 flex items-center justify-center"
             title={multiSelected ? 'deselect' : 'select'}
           >
             {multiSelected ? (
@@ -182,7 +182,7 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
         )}
         <div className="flex-1 min-w-0">
           <div className="text-sm text-fg truncate">{habit.name}</div>
-          <div className="text-[10px] text-dim flex gap-2 flex-wrap mt-0.5">
+          <div className="text-[12px] text-dim flex gap-2 flex-wrap mt-0.5">
             <span className="text-accent2">{habit.mode}</span>
             <span>{habit.schedule.type}</span>
             {habit.goal != null && (
@@ -204,7 +204,7 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
           </div>
           {habit.notes && (
             <p
-              className="text-[11px] text-dim mt-1 leading-snug line-clamp-2 whitespace-pre-wrap"
+              className="text-[12px] text-dim mt-1 leading-snug line-clamp-2 whitespace-pre-wrap"
               title={habit.notes}
             >
               <span className="text-accent2">#</span> {habit.notes}
@@ -215,7 +215,7 @@ export function SwipeableHabitRow({ habit, selected, multiSelected, onSelect, on
           <div className={streak.streak > 0 ? 'text-accent font-bold' : 'text-muted'}>
             {streak.streak > 0 ? `${streak.streak}d` : '—'}
           </div>
-          <div className="text-[9px] text-muted">streak</div>
+          <div className="text-[12px] text-muted">streak</div>
         </div>
       </div>
     </div>

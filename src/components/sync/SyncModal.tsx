@@ -101,7 +101,7 @@ export function SyncModal() {
             {view === 'status' ? '$ sync --telegram' : '$ sync --setup'}
             <span className="cursor-blink">_</span>
           </h2>
-          <button onClick={close} className="text-dim hover:text-fg p-1 -m-1" aria-label="close">
+          <button onClick={close} className="text-dim hover:text-fg p-2 -m-1" aria-label="close">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -126,7 +126,7 @@ export function SyncModal() {
                   <span className="text-dim">@{settings.telegram.botUsername}</span>
                 )}
               </div>
-              <div className="text-[11px] text-dim tnum">
+              <div className="text-[12px] text-dim tnum">
                 {status === 'syncing' ? (
                   <span className="text-accent">syncing…</span>
                 ) : status === 'error' ? (
@@ -217,7 +217,7 @@ export function SyncModal() {
               {busy ? 'validasi bot…' : 'hubungkan Telegram'}
             </button>
 
-            <p className="text-[10px] text-muted text-center leading-relaxed">
+            <p className="text-[12px] text-muted text-center leading-relaxed">
               data lokal tetap utama · sync opsional · token disimpan di browser kamu
             </p>
           </div>

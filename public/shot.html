@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>shot</title>
+<style>html,body{margin:0;padding:0;background:#0a0f0a;overflow:hidden}iframe{border:0;display:block}</style>
+</head>
+<body>
+<iframe id="f" src="./index.html"></iframe>
+<script>
+const q = new URLSearchParams(location.search);
+const W = +(q.get('w')||412), H = +(q.get('h')||915);
+const f = document.getElementById('f');
+f.style.width = W+'px'; f.style.height = H+'px';
+
+const d = new Date(); const iso = x => x.toISOString().slice(0,10);
+const day = n => { const t = new Date(d); t.setDate(t.getDate()-n); return iso(t); };
+localStorage.setItem('rootine:auth:v1', JSON.stringify({sub:'dev',email:'bellamujia30@gmail.com',name:'Muji',exp:Math.floor(Date.now()/1000)+86400}));
+const habits=[
+ {id:'h1',name:'minum air 8 gelas',mode:'counter',schedule:{type:'daily'},goal:8,unit:'gelas',createdAt:day(60)},
+ {id:'h2',name:'baca buku 30 menit',mode:'timer',schedule:{type:'daily'},goal:30,createdAt:day(55)},
+ {id:'h3',name:'olahraga pagi',mode:'checkbox',schedule:{type:'weekly',timesPerWeek:4},createdAt:day(50)},
+ {id:'h4',name:'jurnal malam',mode:'journal',schedule:{type:'daily'},createdAt:day(40)},
+ {id:'h5',name:'tidur sebelum 23:00',mode:'checkbox',schedule:{type:'daily'},createdAt:day(35)},
+ {id:'h6',name:'baca quran',mode:'number',schedule:{type:'daily'},goal:5,unit:'halaman',createdAt:day(70)},
+];
+const completions={};
+habits.forEach((h,hi)=>{for(let i=0;i<70;i++){if(((hi*7+i*11)%10)<7){const v=h.mode==='counter'||h.mode==='timer'||h.mode==='number'?h.goal:1;completions[`${h.id}:${day(i)}`]={habitId:h.id,date:day(i),value:v,updatedAt:new Date().toISOString(),...(h.mode==='journal'?{note:'Produktif: belajar React, nulis 500 kata, olahraga pagi. Tidur jam 22:30.'}:{})};}}});
+localStorage.setItem('init-habits:v1', JSON.stringify({habits,completions,routines:[{id:'r1',name:'pagi',icon:'sun'},{id:'r2',name:'malam',icon:'moon'}],shields:3,shieldEvents:[],xp:4820,unlockedAchievements:['init','first_run','uptime: 7d','uptime: 30d','shielded'],settings:{theme:q.get('theme')||'matrix'},updatedAt:new Date().toISOString()}));
+
+f.onload = () => setTimeout(() => {
+  try {
+    const doc = f.contentDocument;
+    const tab = q.get('tab');
+    if (tab && tab !== 'today') {
+      const label = {stats:'stats', all:'all', journal:'journal'}[tab];
+      const b = [...doc.querySelectorAll('nav button')].find(x => x.textContent.trim().toLowerCase() === label);
+      if (b) b.click();
+    }
+  } catch(e) { document.title = 'ERR ' + e.message; return; }
+  setTimeout(() => { document.title = 'SHOT_READY'; }, 1100);
+}, 1500);
+</script>
+</body>
+</html>

@@ -25,7 +25,7 @@ export function TemplatePicker() {
             $ habit-templates --browse
             <span className="cursor-blink">_</span>
           </h2>
-          <button type="button" onClick={close} className="text-dim hover:text-fg p-1 -m-1">
+          <button type="button" onClick={close} className="text-dim hover:text-fg p-2 -m-1">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -58,7 +58,7 @@ export function TemplatePicker() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-[10px] text-muted mt-2 pt-2 border-t border-border">
+                <div className="flex items-center gap-2 text-[12px] text-muted mt-2 pt-2 border-t border-border">
                   <span>
                     {template.habits.length} habit{template.habits.length !== 1 ? 's' : ''}
                   </span>
@@ -75,7 +75,7 @@ export function TemplatePicker() {
                 {/* Preview habits */}
                 <div className="mt-2 flex flex-col gap-1">
                   {template.habits.slice(0, 3).map((h, i) => (
-                    <div key={i} className="text-[10px] text-muted flex items-center gap-1.5">
+                    <div key={i} className="text-[12px] text-muted flex items-center gap-1.5">
                       <span className="text-accent2">→</span>
                       <span className="truncate">{h.name}</span>
                       {h.goal && h.unit && (
@@ -86,7 +86,7 @@ export function TemplatePicker() {
                     </div>
                   ))}
                   {template.habits.length > 3 && (
-                    <div className="text-[10px] text-muted">
+                    <div className="text-[12px] text-muted">
                       + {template.habits.length - 3} more
                     </div>
                   )}
@@ -103,7 +103,7 @@ export function TemplatePicker() {
           <button
             type="button"
             onClick={close}
-            className="px-3 py-1.5 text-xs border border-border rounded-sm text-dim hover:text-fg"
+            className="px-3 py-2.5 text-xs border border-border rounded-sm text-dim hover:text-fg"
           >
             close
           </button>

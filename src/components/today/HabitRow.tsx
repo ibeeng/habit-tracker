@@ -61,7 +61,7 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
             openJournal(habit)
           }}
           className={cn(
-            'text-[10px] font-bold w-8 shrink-0 leading-tight transition-colors text-center',
+            'text-[12px] font-bold w-8 shrink-0 leading-tight transition-colors text-center',
             done ? 'text-accent' : 'text-muted group-hover:text-dim',
           )}
           aria-label={done ? 'edit journal entry' : 'write journal entry'}
@@ -84,19 +84,19 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
             {habit.name}
           </span>
           {period && (
-            <span className="text-[10px] text-warn tnum">
+            <span className="text-[12px] text-warn tnum">
               [w {period.done}/{period.goal}]
             </span>
           )}
           {habit.unit && habit.mode !== 'checkbox' && (
-            <span className="text-[10px] text-dim">{habit.unit}</span>
+            <span className="text-[12px] text-dim">{habit.unit}</span>
           )}
         </div>
 
         {/* permanent habit note */}
         {habit.notes && (
           <p
-            className="text-[11px] text-dim mt-1 leading-snug line-clamp-1"
+            className="text-[12px] text-dim mt-1 leading-snug line-clamp-1"
             title={habit.notes}
           >
             <span className="text-accent2">#</span> {habit.notes.replace(/\s+/g, ' ').trim()}
@@ -112,7 +112,7 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
                   e.stopPropagation()
                   openJournal(habit)
                 }}
-                className="text-[11px] text-dim leading-snug line-clamp-2 cursor-pointer hover:text-accent transition-colors"
+                className="text-[12px] text-dim leading-snug line-clamp-2 cursor-pointer hover:text-accent transition-colors"
                 title={note}
               >
                 {notePreview}
@@ -123,7 +123,7 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
                   e.stopPropagation()
                   openJournal(habit)
                 }}
-                className="text-[10px] text-accent underline underline-offset-2 hover:opacity-80"
+                className="text-[12px] text-accent underline underline-offset-2 hover:opacity-80"
               >
                 + write today's entry
               </button>
@@ -142,7 +142,7 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
           {habit.mode === 'timer' && <TimerControl habit={habit} />}
 
           {(habit.mode === 'number' || habit.mode === 'counter') && goal > 1 && (
-            <span className="text-[10px] text-muted ml-auto tnum">
+            <span className="text-[12px] text-muted ml-auto tnum">
               {barBlocks(Math.min(100, (value / (habit.goal ?? 1)) * 100), 6)}
             </span>
           )}
@@ -168,7 +168,7 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
                 e.stopPropagation()
                 setOpenForm(habit)
               }}
-              className="text-[10px] text-dim hover:text-accent"
+              className="text-[12px] text-dim hover:text-accent"
               title="edit (e)"
             >
               edit
@@ -178,7 +178,7 @@ export function HabitRow({ habit, selected, onSelect }: Props) {
                 e.stopPropagation()
                 archiveHabit(habit.id)
               }}
-              className="text-[10px] text-dim hover:text-warn"
+              className="text-[12px] text-dim hover:text-warn"
               title="archive"
             >
               arch
@@ -202,15 +202,15 @@ function CounterControl({
   const goal = habit.goal ?? 0
   const pct = goal > 0 ? Math.min(100, (value / goal) * 100) : value > 0 ? 100 : 0
   return (
-    <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center gap-1.5 flex-wrap" onClick={(e) => e.stopPropagation()}>
       <button
         onClick={() => onChange(Math.max(0, value - 1))}
-        className="p-0.5 border border-border rounded-sm text-dim hover:text-danger hover:border-danger"
+        className="p-1.5 border border-border rounded-sm text-dim hover:text-danger hover:border-danger"
         aria-label="decrease"
       >
-        <Minus className="w-3 h-3" />
+        <Minus className="w-4 h-4" />
       </button>
-      <span className="text-[11px] tnum min-w-[52px] text-center">
+      <span className="text-[12px] tnum min-w-[52px] text-center">
         <span className={value >= goal && goal > 0 ? 'text-accent font-bold' : 'text-fg'}>
           {value}
         </span>
@@ -218,18 +218,18 @@ function CounterControl({
       </span>
       <button
         onClick={() => onChange(value + 1)}
-        className="p-0.5 border border-border rounded-sm text-dim hover:text-accent hover:border-accent"
+        className="p-1.5 border border-border rounded-sm text-dim hover:text-accent hover:border-accent"
         aria-label="increase"
       >
-        <Plus className="w-3 h-3" />
+        <Plus className="w-4 h-4" />
       </button>
-      <span className="text-[10px] text-muted ml-1 tnum hidden sm:inline">
+      <span className="text-[12px] text-muted ml-1 tnum hidden sm:inline">
         {barBlocks(pct, 6)}
       </span>
       <button
         onClick={() => onChange(goal)}
         className={cn(
-          'text-[10px] px-1 border rounded-sm',
+          'text-[12px] px-2 py-1 border rounded-sm',
           value >= goal && goal > 0
             ? 'border-accent text-accent'
             : 'border-border text-dim hover:border-accent hover:text-accent',
@@ -247,15 +247,15 @@ function NumberControl({ habit, value, onChange }: { habit: Habit; value: number
   const goal = habit.goal ?? 0
   const pct = goal > 0 ? Math.min(100, (value / goal) * 100) : value > 0 ? 100 : 0
   return (
-    <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center gap-1.5 flex-wrap" onClick={(e) => e.stopPropagation()}>
       <button
         onClick={() => onChange(Math.max(0, value - 1))}
-        className="p-0.5 border border-border rounded-sm text-dim hover:text-danger hover:border-danger"
+        className="p-1.5 border border-border rounded-sm text-dim hover:text-danger hover:border-danger"
         aria-label="decrease"
       >
-        <Minus className="w-3 h-3" />
+        <Minus className="w-4 h-4" />
       </button>
-      <span className="text-[11px] tnum min-w-[52px] text-center">
+      <span className="text-[12px] tnum min-w-[52px] text-center">
         <span className={value >= goal && goal > 0 ? 'text-accent font-bold' : 'text-fg'}>
           {value}
         </span>
@@ -263,18 +263,18 @@ function NumberControl({ habit, value, onChange }: { habit: Habit; value: number
       </span>
       <button
         onClick={() => onChange(value + 1)}
-        className="p-0.5 border border-border rounded-sm text-dim hover:text-accent hover:border-accent"
+        className="p-1.5 border border-border rounded-sm text-dim hover:text-accent hover:border-accent"
         aria-label="increase"
       >
-        <Plus className="w-3 h-3" />
+        <Plus className="w-4 h-4" />
       </button>
-      <span className="text-[10px] text-muted ml-1 tnum hidden sm:inline">
+      <span className="text-[12px] text-muted ml-1 tnum hidden sm:inline">
         {barBlocks(pct, 6)}
       </span>
       <button
         onClick={() => onChange(goal)}
         className={cn(
-          'text-[10px] px-1 border rounded-sm',
+          'text-[12px] px-1 border rounded-sm',
           value >= goal && goal > 0
             ? 'border-accent text-accent'
             : 'border-border text-dim hover:border-accent hover:text-accent',
@@ -375,38 +375,38 @@ function TimerControl({ habit }: { habit: Habit }) {
   const pct = Math.min(100, (totalSecs / (target * 60)) * 100)
 
   return (
-    <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center gap-1.5 flex-wrap" onClick={(e) => e.stopPropagation()}>
       <button
         onClick={launchTimer}
         className={cn(
-          'p-0.5 border rounded-sm',
+          'p-1.5 border rounded-sm',
           running
             ? 'border-warn text-warn'
             : 'border-border text-dim hover:text-accent hover:border-accent',
         )}
         aria-label={running ? 'pause' : 'start'}
       >
-        {running ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+        {running ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
       </button>
-      <span className="text-[11px] tnum">
+      <span className="text-[12px] tnum">
         <span className={pct >= 100 ? 'text-accent font-bold' : 'text-fg'}>
           {mm}:{ss}
         </span>
         <span className="text-muted"> / {target}:00</span>
       </span>
       {justFinished && (
-        <span className="text-[10px] text-warn animate-pulse">✦ done</span>
+        <span className="text-[12px] text-warn animate-pulse">✦ done</span>
       )}
-      <span className="text-[10px] text-muted tnum">{barBlocks(pct, 6)}</span>
+      <span className="text-[12px] text-muted tnum">{barBlocks(pct, 6)}</span>
       <button
         onClick={() => {
           setRunning(false)
           setValue(habit, Math.min(value, target))
         }}
-        className="p-0.5 border border-border rounded-sm text-dim hover:text-success hover:border-success"
+        className="p-1.5 border border-border rounded-sm text-dim hover:text-success hover:border-success"
         aria-label="stop and log"
       >
-        <Square className="w-3 h-3" />
+        <Square className="w-4 h-4" />
       </button>
     </div>
   )

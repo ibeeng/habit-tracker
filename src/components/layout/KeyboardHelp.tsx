@@ -41,7 +41,7 @@ export function KeyboardHelp() {
           </h2>
           <button
             onClick={() => setOpen(false)}
-            className="text-dim hover:text-fg p-1 -m-1"
+            className="text-dim hover:text-fg p-2 -m-1"
             aria-label="close"
           >
             <X className="w-4 h-4" />
@@ -61,7 +61,7 @@ export function KeyboardHelp() {
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-[11px] text-dim border-t border-border pt-3">
+          <p className="mt-4 text-[12px] text-dim border-t border-border pt-3">
             [ok] keyboard module loaded
           </p>
         </div>

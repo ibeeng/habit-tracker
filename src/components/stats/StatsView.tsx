@@ -141,7 +141,7 @@ export function StatsView() {
           <Stat label="level" value={String(lvl.level)} />
           <Stat label="shields" value={`◆ ${state.shields}`} />
         </div>
-        <div className="mt-3 flex items-center gap-2 text-[11px] text-dim border-t border-border pt-2 overflow-hidden">
+        <div className="mt-3 flex items-center gap-2 text-[12px] text-dim border-t border-border pt-2 overflow-hidden">
           <span className="label-caps shrink-0">xp</span>
           <AsciiBar pct={lvl.pct} width={12} />
           <span className="tnum shrink-0">
@@ -154,7 +154,7 @@ export function StatsView() {
       <Panel className="overflow-hidden">
         <div className="flex items-baseline justify-between mb-2 gap-2">
           <span className="label-caps">// last {WEEKS + 1} weeks</span>
-          <span className="text-[10px] text-muted">swipe ←</span>
+          <span className="text-[12px] text-muted">swipe ←</span>
         </div>
         <div
           ref={scrollRef}
@@ -167,7 +167,7 @@ export function StatsView() {
               {heatmap.map((week, wi) => {
                 const label = week.find((c) => c.monthLabel)?.monthLabel
                 return (
-                  <div key={wi} className="w-[11px] shrink-0 text-[8px] text-dim leading-none h-3">
+                  <div key={wi} className="w-[16px] shrink-0 text-xs text-dim leading-none h-4">
                     {label ?? ''}
                   </div>
                 )
@@ -182,7 +182,7 @@ export function StatsView() {
                       key={cell.date}
                       title={`${cell.date}: ${cell.count} completions`}
                       className={cn(
-                        'w-[11px] h-[11px] rounded-[2px] border border-border/30',
+                        'w-[16px] h-[16px] rounded-[3px] border border-border/30',
                         heatClass(cell.count),
                         cell.date === today && 'ring-1 ring-accent ring-offset-0',
                         cell.future && 'opacity-25',
@@ -195,14 +195,14 @@ export function StatsView() {
             {/* weekday labels */}
             <div className="flex gap-[2px] mt-1">
               {heatmap[0]?.map((_, i) => (
-                <div key={i} className="w-[11px] shrink-0 text-center text-[8px] text-muted leading-none">
+                <div key={i} className="w-[16px] shrink-0 text-center text-xs text-muted leading-none">
                   {i === 0 ? 'M' : i === 2 ? 'W' : i === 4 ? 'F' : ''}
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 mt-2 text-[10px] text-dim">
+        <div className="flex items-center gap-1.5 mt-2 text-[12px] text-dim">
           <span>less</span>
           <span className="w-[11px] h-[11px] rounded-[2px] bg-heat0 border border-border/30" />
           <span className="w-[11px] h-[11px] rounded-[2px] bg-heat1 border border-border/30" />
@@ -216,7 +216,7 @@ export function StatsView() {
       {/* month calendar */}
       <Panel>
         <div className="label-caps mb-2">// {monthLabel}</div>
-        <div className="grid grid-cols-7 gap-1 text-center text-[10px] text-muted mb-1">
+        <div className="grid grid-cols-7 gap-1 text-center text-[12px] text-muted mb-1">
           {['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'].map((d) => (
             <div key={d}>{d}</div>
           ))}
@@ -232,7 +232,7 @@ export function StatsView() {
                 key={iso}
                 title={`${iso}: ${count}`}
                 className={cn(
-                  'aspect-square flex items-center justify-center text-[11px] tnum rounded-sm border min-h-8',
+                  'aspect-square flex items-center justify-center text-[12px] tnum rounded-sm border min-h-8',
                   future
                     ? 'border-transparent text-muted/30'
                     : isToday
@@ -259,13 +259,13 @@ export function StatsView() {
             return (
               <div key={h.id} className="flex items-center gap-2 sm:gap-3">
                 <span className="text-xs text-fg flex-1 min-w-0 truncate">{h.name}</span>
-                <span className="text-[11px] text-accent tnum w-10 text-right shrink-0">
+                <span className="text-[12px] text-accent tnum w-10 text-right shrink-0">
                   {streak.streak}d
                 </span>
                 <div className="w-16 sm:w-24 shrink-0">
                   <AsciiBar pct={rate} width={6} />
                 </div>
-                <span className="text-[11px] text-dim tnum w-9 text-right shrink-0">{rate}%</span>
+                <span className="text-[12px] text-dim tnum w-9 text-right shrink-0">{rate}%</span>
               </div>
             )
           })}
@@ -285,14 +285,14 @@ export function StatsView() {
               <div
                 key={a.id}
                 className={cn(
-                  'text-xs px-2 py-1.5 border rounded-sm flex items-start gap-2 min-w-0',
+                  'text-xs px-2.5 py-2.5 border rounded-sm flex items-start gap-2 min-w-0',
                   unlocked ? 'border-warn/60 bg-warn/5' : 'border-border opacity-50',
                 )}
               >
                 <span className={unlocked ? 'text-warn' : 'text-muted'}>★</span>
                 <div className="min-w-0">
                   <div className={unlocked ? 'text-warn font-bold' : 'text-dim'}>{a.name}</div>
-                  <div className="text-[10px] text-muted">{a.desc}</div>
+                  <div className="text-[12px] text-muted">{a.desc}</div>
                 </div>
               </div>
             )

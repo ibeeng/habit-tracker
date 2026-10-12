@@ -122,6 +122,25 @@ canvas {
   max-width: 100%;
 }
 
+/* every interactive control gets a 44px minimum hit area (WCAG 2.5.5 / Material).
+   Inline links inside a sentence are exempt by the spec, so a[href] is handled
+   per-component instead of globally. */
+button,
+input[type='checkbox'],
+input[type='radio'],
+select,
+[role='button'] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* opt out for controls that must stay visually tiny (dense inline clusters) */
+.tap-compact,
+.tap-compact * {
+  min-height: 0;
+  min-width: 0;
+}
+
 button,
 input,
 select,
@@ -145,8 +164,9 @@ nav {
 
 @utility label-caps {
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 10px;
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  line-height: 1.4;
   color: var(--fg-dim);
 }
 

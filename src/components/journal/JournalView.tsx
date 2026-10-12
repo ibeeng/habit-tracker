@@ -113,7 +113,7 @@ export function JournalView() {
             create one
           </button>
         </p>
-        <p className="mt-2 text-[11px] text-muted">
+        <p className="mt-2 text-[12px] text-muted">
           // atau set mode <span className="text-accent2">journal</span> di form habit biasa
         </p>
       </Panel>
@@ -174,20 +174,20 @@ export function JournalView() {
 
         {/* filters */}
         <div className="mt-3 border-t border-border pt-3 flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1 bg-bg2 border border-border rounded-sm px-2 py-0.5 flex-1 min-w-[160px]">
+          <div className="flex items-center gap-1 bg-bg2 border border-border rounded-sm px-2 py-1 flex-1 min-w-[160px]">
             <Search className="w-3.5 h-3.5 text-muted shrink-0" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="grep entries…"
-              className="flex-1 min-w-0 bg-transparent text-xs text-fg placeholder:text-muted focus:outline-none py-0.5"
+              className="flex-1 min-w-0 bg-transparent text-xs text-fg placeholder:text-muted focus:outline-none py-3"
             />
           </div>
           <div className="flex gap-1 flex-wrap">
             <button
               onClick={() => setHabitFilter(null)}
               className={cn(
-                'px-2 py-1 border rounded-sm text-[10px]',
+                'px-2.5 py-2.5 border rounded-sm text-[12px]',
                 habitFilter === null
                   ? 'border-accent text-accent bg-accent/10'
                   : 'border-border text-dim hover:border-muted',
@@ -201,7 +201,7 @@ export function JournalView() {
                 onClick={() => setHabitFilter(habitFilter === h.id ? null : h.id)}
                 title={h.name}
                 className={cn(
-                  'px-2 py-1 border rounded-sm text-[10px] max-w-[140px] truncate',
+                  'px-2.5 py-2.5 border rounded-sm text-[12px] max-w-[140px] truncate',
                   habitFilter === h.id
                     ? 'border-accent text-accent bg-accent/10'
                     : 'border-border text-dim hover:border-muted',
@@ -230,7 +230,7 @@ export function JournalView() {
                 <h2 className="text-xs font-bold text-accent2 uppercase tracking-widest">
                   {relativeDay(date, today)}
                 </h2>
-                <span className="text-[10px] text-muted tnum">
+                <span className="text-[12px] text-muted tnum">
                   {formatDate(date, 'EEE, MMM d yyyy')} ·{' '}
                   {items.reduce((n, e) => n + e.words, 0)} words
                 </span>
@@ -241,7 +241,7 @@ export function JournalView() {
                   onClick={() => openJournal(e.habit, date)}
                   className="block w-full text-left border border-border bg-panel rounded-sm px-3 py-2 hover:border-accent/60 transition-colors"
                 >
-                  <div className="flex items-center gap-1.5 text-[10px] text-accent">
+                  <div className="flex items-center gap-1.5 text-[12px] text-accent">
                     <NotebookPen className="w-3.5 h-3.5 shrink-0" />
                     <span className="font-bold truncate">{e.habit.name}</span>
                     {e.habit.archived && (

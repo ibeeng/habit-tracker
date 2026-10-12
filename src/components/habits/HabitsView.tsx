@@ -62,24 +62,24 @@ export function HabitsView() {
                   for (const id of selectedIds) deleteHabit(id)
                   setSelectedIds(new Set())
                 }}
-                className="flex items-center gap-1 text-xs text-danger hover:opacity-80 active:opacity-70"
+                className="flex items-center gap-1.5 px-2 py-2 text-xs text-danger hover:opacity-80 active:opacity-70"
               >
-                <Trash2 className="w-3 h-3" />
+                <Trash2 className="w-3.5 h-3.5" />
                 hapus {selectedIds.size}
               </button>
             )}
             <button
               onClick={() => setOpenTemplatePicker(true)}
-              className="flex items-center gap-1 text-xs text-accent2 hover:opacity-80"
+              className="flex items-center gap-1.5 px-2 py-2 text-xs text-accent2 hover:opacity-80"
               title="browse habit templates"
             >
-              <Sparkles className="w-3 h-3" /> templates
+              <Sparkles className="w-3.5 h-3.5" /> templates
             </button>
             <button
               onClick={() => setOpenForm('new')}
-              className="flex items-center gap-1 text-xs text-accent hover:opacity-80"
+              className="flex items-center gap-1.5 px-2 py-2 text-xs text-accent hover:opacity-80"
             >
-              <Plus className="w-3 h-3" /> new
+              <Plus className="w-3.5 h-3.5" /> new
             </button>
           </div>
         </div>

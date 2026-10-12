@@ -42,22 +42,22 @@ export function TodayView() {
             {'// no habits yet. '}
             <button
               onClick={() => setOpenForm('new')}
-              className="text-accent underline underline-offset-2 hover:opacity-80"
+              className="text-accent underline underline-offset-2 hover:opacity-80 px-1 py-1.5 -my-1.5 inline-block"
             >
               $ init --day-1
             </button>
             {' to create your first habit, or '}
             <button
               onClick={() => setOpenTemplatePicker(true)}
-              className="text-accent2 underline underline-offset-2 hover:opacity-80"
+              className="text-accent2 underline underline-offset-2 hover:opacity-80 px-1 py-1.5 -my-1.5 inline-block"
             >
               browse templates
             </button>
             {' for quick start.'}
           </p>
-          <pre className="mt-4 text-[10px] sm:text-[11px] text-muted leading-tight overflow-x-auto max-w-full">{`
+          <pre className="mt-4 text-[12px] sm:text-[12px] text-muted leading-tight overflow-x-auto max-w-full">{`
                  _   _
- _ __ ___   ___ | |_(_)_ __   ___   version 0.1.0
+ _ __ ___   ___ | |_(_)_ __   ___   version 1.1.0
 | '__/ _ \\ / _ \\| __| | '_ \\ / _ \\
 | | | (_) | (_) | |_| | | | |  __/
 |_|  \\___/ \\___/ \\__|_|_| |_|\\___|
@@ -80,7 +80,7 @@ export function TodayView() {
             <div className="text-2xl font-bold text-accent tnum">
               {pct}% <span className="text-sm text-dim font-normal">[{done}/{total}]</span>
             </div>
-            <div className="text-[11px] text-dim mt-0.5">
+            <div className="text-[12px] text-dim mt-0.5">
               <AsciiBar pct={pct} width={16} />
             </div>
           </div>
@@ -165,7 +165,7 @@ export function TodayView() {
         </Panel>
       )}
 
-      <p className="text-[11px] text-muted">
+      <p className="text-[12px] text-muted">
         {'// goal: 100% · '}
         {done >= total && total > 0 ? (
           <span className="text-accent">full_day logged ✓</span>

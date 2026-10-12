@@ -156,7 +156,7 @@ export default function App() {
   return (
     <div className="min-h-dvh flex flex-col bg-bg text-fg font-mono overflow-x-clip">
       <Header />
-      <main className="flex-1 w-full max-w-3xl mx-auto px-3 sm:px-6 py-4 sm:py-6 pb-24 sm:pb-8 min-w-0">
+      <main className="flex-1 w-full max-w-3xl mx-auto px-3 sm:px-6 py-4 sm:py-6 pb-28 sm:pb-8 min-w-0">
         {tab === 'today' && <TodayView />}
         {tab === 'stats' && <StatsView />}
         {tab === 'habits' && <HabitsView />}
@@ -164,7 +164,7 @@ export default function App() {
       </main>
 
       {/* desktop footer */}
-      <footer className="hidden sm:block border-t border-border px-6 py-2 text-[11px] text-dim flex gap-x-4 gap-y-1 justify-between max-w-3xl mx-auto w-full">
+      <footer className="hidden sm:block border-t border-border px-6 py-2 text-[12px] text-dim flex gap-x-4 gap-y-1 justify-between max-w-3xl mx-auto w-full">
         <span>
           <span className="text-accent">$</span> press{' '}
           <kbd className="px-1 border border-border rounded">?</kbd> for keys

@@ -73,7 +73,7 @@ export function Header() {
               key={t.id}
               onClick={() => setTab(t.id)}
               className={cn(
-                'px-1.5 py-0.5 text-[11px] rounded-sm border whitespace-nowrap transition-colors tnum',
+                'px-2.5 py-2 text-[12px] rounded-sm border whitespace-nowrap transition-colors tnum',
                 tab === t.id
                   ? 'border-accent text-accent bg-accent/10'
                   : 'border-transparent text-dim hover:text-fg hover:border-border',
@@ -86,7 +86,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1.5 shrink-0 ml-auto">
-          <span className="text-warn text-[11px] tnum whitespace-nowrap" title="shields">
+          <span className="text-warn text-[12px] tnum whitespace-nowrap" title="shields">
             ◆{state.shields}
           </span>
 
@@ -146,7 +146,7 @@ export function Header() {
                         setThemeOpen(false)
                       }}
                       className={cn(
-                        'w-full text-left px-2 py-1.5 text-xs rounded-sm hover:bg-bg2',
+                        'w-full text-left px-3 py-2.5 text-xs rounded-sm hover:bg-bg2',
                         state.settings.theme === t.id ? 'text-accent' : 'text-dim hover:text-fg',
                       )}
                     >
@@ -177,13 +177,13 @@ export function Header() {
                 <div className="absolute right-0 top-full mt-1 z-50 bg-panel border border-border rounded-sm p-1 min-w-[160px] fade-in shadow-lg">
                   <button
                     onClick={onImport}
-                    className="w-full text-left px-2 py-1.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2"
+                    className="w-full text-left px-3 py-2.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2"
                   >
                     <Upload className="w-3.5 h-3.5" /> import backup
                   </button>
                   <button
                     onClick={onExport}
-                    className="w-full text-left px-2 py-1.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2"
+                    className="w-full text-left px-3 py-2.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2"
                   >
                     <Download className="w-3.5 h-3.5" /> export backup
                   </button>
@@ -192,7 +192,7 @@ export function Header() {
                       if (confirm('reset ALL local data?')) resetAll()
                       setMenuOpen(false)
                     }}
-                    className="w-full text-left px-2 py-1.5 text-xs rounded-sm text-danger hover:bg-bg2 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2.5 text-xs rounded-sm text-danger hover:bg-bg2 flex items-center gap-2"
                   >
                     reset data
                   </button>
@@ -201,7 +201,7 @@ export function Header() {
                       signOut()
                       setMenuOpen(false)
                     }}
-                    className="w-full text-left px-2 py-1.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2 border-t border-border mt-1 pt-2"
+                    className="w-full text-left px-3 py-2.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2 border-t border-border mt-1 pt-3"
                     title={user?.email}
                   >
                     <LogOut className="w-3.5 h-3.5" /> sign out
@@ -214,7 +214,7 @@ export function Header() {
           {/* desktop new habit */}
           <button
             onClick={() => setOpenForm('new')}
-            className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-[11px] rounded-sm bg-accent text-bg font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-2 text-[12px] rounded-sm bg-accent text-bg font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
             title="new habit (n)"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -224,7 +224,7 @@ export function Header() {
       </div>
 
       {/* date line */}
-      <div className="max-w-3xl mx-auto px-3 sm:px-6 pb-1.5 text-[11px] text-dim flex items-center gap-2 flex-wrap">
+      <div className="max-w-3xl mx-auto px-3 sm:px-6 pb-1.5 text-[12px] text-dim flex items-center gap-2 flex-wrap">
         <span className="truncate">
           {formatDate(new Date(), 'EEE, MMM d yyyy')} ·{' '}
           <span className="text-accent tnum">

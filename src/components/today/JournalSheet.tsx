@@ -95,7 +95,7 @@ export function JournalSheet({ habit, onClose }: Props) {
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="text-[10px] text-dim tnum">
+              <span className="text-[12px] text-dim tnum">
                 {formatDate(day, 'EEE, MMM d yyyy')}
                 {day === isoToday() && <span className="text-accent"> · today</span>}
               </span>
@@ -116,7 +116,7 @@ export function JournalSheet({ habit, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => goTo(isoToday())}
-                  className="ml-1 text-[10px] text-accent underline underline-offset-2 hover:opacity-80"
+                  className="ml-1 text-[12px] text-accent underline underline-offset-2 hover:opacity-80"
                 >
                   back to today
                 </button>
@@ -157,7 +157,7 @@ export function JournalSheet({ habit, onClose }: Props) {
             spellCheck
             className="w-full min-h-[38dvh] sm:min-h-[44dvh] bg-bg2 border border-border rounded-sm px-3 py-2.5 text-base sm:text-sm text-fg placeholder:text-muted focus:outline-none focus:border-accent resize-none leading-relaxed"
           />
-          <div className="mt-1.5 flex items-center justify-between text-[10px] text-muted">
+          <div className="mt-1.5 flex items-center justify-between text-[12px] text-muted">
             <span className="tnum">
               {words} words · {text.length} chars
             </span>
@@ -189,7 +189,7 @@ export function JournalSheet({ habit, onClose }: Props) {
             <button
               type="button"
               onClick={onClose}
-              className="px-3 py-1.5 text-xs border border-border rounded-sm text-dim hover:text-fg"
+              className="px-3 py-2.5 text-xs border border-border rounded-sm text-dim hover:text-fg"
             >
               cancel
             </button>
@@ -198,7 +198,7 @@ export function JournalSheet({ habit, onClose }: Props) {
               onClick={commit}
               disabled={!dirty}
               className={cn(
-                'px-3 py-1.5 text-xs rounded-sm font-bold transition-colors',
+                'px-3 py-2.5 text-xs rounded-sm font-bold transition-colors',
                 dirty
                   ? 'bg-accent text-bg hover:opacity-90'
                   : 'bg-accent/30 text-bg/60 cursor-not-allowed',

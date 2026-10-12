@@ -102,7 +102,7 @@ export function HabitForm() {
             $ {editing ? 'habit --edit' : 'habit --new'}
             <span className="cursor-blink">_</span>
           </h2>
-          <button type="button" onClick={close} className="text-dim hover:text-fg p-1 -m-1">
+          <button type="button" onClick={close} className="text-dim hover:text-fg p-2.5 -m-1">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -119,7 +119,7 @@ export function HabitForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={mode === 'journal' ? 'daily journal' : 'meditate 10 min'}
-            className="mt-1 w-full bg-bg2 border border-border rounded-sm px-2.5 py-1.5 text-sm text-fg placeholder:text-muted focus:outline-none focus:border-accent"
+            className="mt-1 w-full bg-bg2 border border-border rounded-sm px-3 py-3 text-sm text-fg placeholder:text-muted focus:outline-none focus:border-accent"
           />
         </label>
 
@@ -132,14 +132,14 @@ export function HabitForm() {
                 type="button"
                 onClick={() => setMode(m.id)}
                 className={cn(
-                  'text-left px-2 py-1.5 border rounded-sm text-xs transition-colors',
+                  'text-left px-2.5 py-2.5 border rounded-sm text-xs transition-colors',
                   mode === m.id
                     ? 'border-accent bg-accent/10 text-accent'
                     : 'border-border text-dim hover:border-muted',
                 )}
               >
                 <div className="font-bold">{m.label}</div>
-                <div className="text-[10px] text-muted mt-0.5">{m.hint}</div>
+                <div className="text-[12px] text-muted mt-0.5">{m.hint}</div>
               </button>
             ))}
           </div>
@@ -154,7 +154,7 @@ export function HabitForm() {
                 type="button"
                 onClick={() => setScheduleType(s.id)}
                 className={cn(
-                  'px-2.5 py-1 border rounded-sm text-xs',
+                  'px-2.5 py-2.5 border rounded-sm text-xs',
                   scheduleType === s.id
                     ? 'border-accent text-accent bg-accent/10'
                     : 'border-border text-dim hover:border-muted',
@@ -174,7 +174,7 @@ export function HabitForm() {
                 max={7}
                 value={timesPerWeek}
                 onChange={(e) => setTimesPerWeek(Number(e.target.value))}
-                className="w-14 bg-bg2 border border-border rounded-sm px-1.5 py-1 text-xs text-fg tnum focus:outline-none focus:border-accent"
+                className="w-16 bg-bg2 border border-border rounded-sm px-2 py-3 text-xs text-fg tnum focus:outline-none focus:border-accent"
               />
               <span className="text-xs text-dim">× per week</span>
               <div className="flex gap-1 ml-2">
@@ -186,7 +186,7 @@ export function HabitForm() {
                       setWeekdays((w) => (w.includes(i) ? w.filter((x) => x !== i) : [...w, i]))
                     }
                     className={cn(
-                      'w-7 h-6 text-[10px] border rounded-sm lowercase',
+                      'w-11 h-11 text-[12px] border rounded-sm lowercase',
                       weekdays.includes(i)
                         ? 'border-accent text-accent bg-accent/10'
                         : 'border-border text-muted hover:border-muted',
@@ -208,7 +208,7 @@ export function HabitForm() {
                 max={31}
                 value={dayOfMonth}
                 onChange={(e) => setDayOfMonth(Number(e.target.value))}
-                className="w-14 bg-bg2 border border-border rounded-sm px-1.5 py-1 text-xs text-fg tnum focus:outline-none focus:border-accent"
+                className="w-16 bg-bg2 border border-border rounded-sm px-2 py-3 text-xs text-fg tnum focus:outline-none focus:border-accent"
               />
               <span className="text-xs text-dim">of month</span>
             </div>
@@ -220,9 +220,9 @@ export function HabitForm() {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="bg-bg2 border border-border rounded-sm px-1.5 py-1 text-xs text-fg focus:outline-none focus:border-accent"
+              className="bg-bg2 border border-border rounded-sm px-2 py-3 text-xs text-fg focus:outline-none focus:border-accent"
             />
-            <span className="text-[10px] text-muted">default: {isoToday()}</span>
+            <span className="text-[12px] text-muted">default: {isoToday()}</span>
           </div>
         </div>
 
@@ -236,7 +236,7 @@ export function HabitForm() {
                 value={goal}
                 onChange={(e) => setGoal(e.target.value)}
                 placeholder={mode === 'timer' ? '25' : mode === 'counter' ? '8' : '20'}
-                className="mt-1 w-full bg-bg2 border border-border rounded-sm px-2.5 py-1.5 text-sm text-fg tnum focus:outline-none focus:border-accent"
+                className="mt-1 w-full bg-bg2 border border-border rounded-sm px-3 py-3 text-sm text-fg tnum focus:outline-none focus:border-accent"
               />
             </label>
             <label>
@@ -245,7 +245,7 @@ export function HabitForm() {
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
                 placeholder={mode === 'timer' ? 'min' : mode === 'counter' ? 'glasses' : 'pages'}
-                className="mt-1 w-full bg-bg2 border border-border rounded-sm px-2.5 py-1.5 text-sm text-fg focus:outline-none focus:border-accent"
+                className="mt-1 w-full bg-bg2 border border-border rounded-sm px-3 py-3 text-sm text-fg focus:outline-none focus:border-accent"
               />
             </label>
           </div>
@@ -259,9 +259,9 @@ export function HabitForm() {
             rows={3}
             maxLength={500}
             placeholder={'// why this habit? purpose, rules, cues\ncatatan tetap — tampil di list habit, bukan harian'}
-            className="mt-1 w-full bg-bg2 border border-border rounded-sm px-2.5 py-1.5 text-sm text-fg placeholder:text-muted focus:outline-none focus:border-accent resize-y leading-relaxed"
+            className="mt-1 w-full bg-bg2 border border-border rounded-sm px-3 py-3 text-sm text-fg placeholder:text-muted focus:outline-none focus:border-accent resize-y leading-relaxed"
           />
-          <div className="mt-0.5 text-[10px] text-muted tnum text-right">
+          <div className="mt-0.5 text-[12px] text-muted tnum text-right">
             {notes.length}/500
           </div>
         </div>
@@ -273,7 +273,7 @@ export function HabitForm() {
               type="button"
               onClick={() => setRoutineId(null)}
               className={cn(
-                'px-2 py-1 border rounded-sm text-xs',
+                'px-2.5 py-2.5 border rounded-sm text-xs',
                 routineId === null
                   ? 'border-accent text-accent'
                   : 'border-border text-dim hover:border-muted',
@@ -287,7 +287,7 @@ export function HabitForm() {
                   type="button"
                   onClick={() => setRoutineId(r.id)}
                   className={cn(
-                    'px-2 py-1 border rounded-sm text-xs',
+                    'px-2.5 py-2.5 border rounded-sm text-xs',
                     routineId === r.id
                       ? 'border-accent text-accent'
                       : 'border-border text-dim hover:border-muted',
@@ -301,7 +301,7 @@ export function HabitForm() {
                 <button
                   type="button"
                   onClick={() => deleteRoutine(r.id)}
-                  className="ml-0.5 text-[10px] text-muted hover:text-danger"
+                  className="ml-0.5 text-[12px] text-muted hover:text-danger"
                   title="delete routine"
                 >
                   ×
@@ -310,12 +310,12 @@ export function HabitForm() {
             ))}
           </div>
           <div className="mt-2 flex gap-1.5 flex-wrap">
-            <div className="flex-1 flex items-center gap-1.5 bg-bg2 border border-border rounded-sm px-1.5 py-0.5 min-w-[140px]">
+            <div className="flex-1 flex items-center gap-1.5 bg-bg2 border border-border rounded-sm px-2 py-2 min-w-[140px]">
               <input
                 value={newRoutine}
                 onChange={(e) => setNewRoutine(e.target.value)}
                 placeholder="name"
-                className="flex-1 min-w-0 bg-transparent text-xs text-fg placeholder:text-muted focus:outline-none"
+                className="flex-1 min-w-0 bg-transparent text-xs text-fg placeholder:text-muted focus:outline-none py-1"
               />
               <button
                 type="button"
