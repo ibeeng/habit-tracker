@@ -80,7 +80,9 @@ export function loadSession(): AuthUser | null {
     const raw = localStorage.getItem(AUTH_STORAGE_KEY)
     if (!raw) return null
     const user = JSON.parse(raw) as AuthUser
-    if (!user?.sub || typeof user.exp !== 'number' || user.exp * 1000 < Date.now()) {
+    // exp sengaja TIDAK dicek: id_token Google cuma hidup ±1 jam, padahal session
+    // ini cuma penanda "siapa yang login" (nggak ada panggilan Google API sesudahnya)
+    if (!user?.sub) {
       localStorage.removeItem(AUTH_STORAGE_KEY)
       return null
     }
