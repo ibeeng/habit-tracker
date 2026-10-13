@@ -21,7 +21,7 @@ const config: CapacitorConfig = {
     // server can tell whether the published one is actually newer.
     CapacitorUpdater: {
       updateUrl: 'https://telba.xyz/rootine-ota/updates',
-      version: '1.2.0',
+      version: '1.2.1',
       autoUpdate: false,
       // no third-party telemetry — updates are private
       statsUrl: '',
