@@ -21,7 +21,7 @@ function ensureInit(): Promise<void> {
  * Google blocks the OAuth consent screen inside a WebView, so the Android build
  * signs in through the native Google Identity API (Play Services / Credential
  * Manager) via @capgo/capacitor-social-login. Needs an OAuth client of type
- * "Android" (package com.waalid.rootine + this app's SHA-1) in Google Cloud.
+ * "Android" (package com.ibedes.rootine + this app's SHA-1) in Google Cloud.
  */
 export async function signInWithGoogleNative(): Promise<AuthUser> {
   if (!WEB_CLIENT_ID) throw new Error('VITE_GOOGLE_CLIENT_ID belum di-set')

@@ -60,7 +60,7 @@ Butuh dua OAuth client di project Google Cloud yang sama:
 | client | tipe | isian |
 |---|---|---|
 | untuk web | Web application | client ID ini → `.env` (`VITE_GOOGLE_CLIENT_ID`), dipakai sebagai audience `id_token` |
-| untuk app | Android | package name `com.waalid.rootine`, SHA-1 `B9:6B:52:B2:67:1A:EE:C8:BB:16:AD:97:DE:16:90:9F:B3:DE:EF:26` |
+| untuk app | Android | package name `com.ibedes.rootine`, SHA-1 `B9:6B:52:B2:67:1A:EE:C8:BB:16:AD:97:DE:16:90:9F:B3:DE:EF:26` |
 
 Kalau client Android-nya nggak ada / SHA-1 atau package name-nya beda, Play Services
 nolak login dengan `ApiException` (error merah di layar login).

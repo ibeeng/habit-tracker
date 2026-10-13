@@ -1,4 +1,4 @@
-package com.waalid.rootine;
+package com.ibedes.rootine;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { Moon, Sun, Download, Upload, Plus, Sprout, MoreVertical, LogOut, Cloud, RefreshCw } from 'lucide-react'
+import { createPortal } from 'react-dom'
+import { Moon, Sun, Download, Upload, Plus, Sprout, MoreVertical, LogOut, Cloud, RefreshCw, Package } from 'lucide-react'
 import { useHabits, type Tab } from '../../store/useHabits'
 import { useAuth } from '../../store/auth'
 import { useSync } from '../../store/sync'
+import { UpdateModal } from '../update/UpdateModal'
 import { THEMES } from '../../themes'
 import { levelInfo } from '../../lib/xp'
 import { isoToday, formatDate } from '../../lib/dates'
@@ -22,6 +24,7 @@ export function Header() {
   const { settings: syncSettings, status: syncStatus, setModalOpen: setSyncOpen, lastSyncAt } = useSync()
   const [themeOpen, setThemeOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [updateOpen, setUpdateOpen] = useState(false)
   const lvl = levelInfo(state.xp)
   const isLight = state.settings.theme === 'paper'
 
@@ -189,6 +192,16 @@ export function Header() {
                   </button>
                   <button
                     onClick={() => {
+                      setUpdateOpen(true)
+                      setMenuOpen(false)
+                    }}
+                    className="w-full text-left px-3 py-2.5 text-xs rounded-sm text-dim hover:bg-bg2 hover:text-fg flex items-center gap-2"
+                  >
+                    <Package className="w-3.5 h-3.5" /> cek update
+                    <span className="ml-auto text-muted tnum">v{__APP_VERSION__}</span>
+                  </button>
+                  <button
+                    onClick={() => {
                       if (confirm('reset ALL local data?')) resetAll()
                       setMenuOpen(false)
                     }}
@@ -235,6 +248,14 @@ export function Header() {
           · lv {lvl.level} {lvl.intoLevel}/{lvl.needForNext} xp
         </span>
       </div>
+
+      {/* rendered through a portal: the header's backdrop-blur would otherwise
+          become the containing block for this fixed overlay */}
+      {updateOpen &&
+        createPortal(
+          <UpdateModal onClose={() => setUpdateOpen(false)} />,
+          document.body,
+        )}
     </header>
   )
 }

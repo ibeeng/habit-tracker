@@ -114,7 +114,7 @@ export function LoginScreen() {
         </div>
 
         <p className="text-center text-[12px] text-muted leading-relaxed">
-          v0.1.0 ·{' '}
+          v{__APP_VERSION__} ·{' '}
           <a href="./privacy.html" className="underline underline-offset-2 hover:text-accent" target="_blank" rel="noreferrer">
             privacy
           </a>{' '}

@@ -8,6 +8,11 @@ import path from 'node:path'
 // Android (Capacitor) serves from the web root → APP_BASE=./ for relative paths
 const BASE = process.env.APP_BASE ?? '/habit-tracker/'
 
+/** single source of truth for the displayed app version */
+const APP_VERSION: string = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf8'),
+).version
+
 /** preload the latin subset of the app font so FCP paints in the right face */
 function preloadFont(): Plugin {
   return {
@@ -57,6 +62,8 @@ function precacheManifest(): Plugin {
 
 export default defineConfig({
   base: BASE,
+  // version shown in the UI comes from package.json, never a hardcoded string
+  define: { __APP_VERSION__: JSON.stringify(APP_VERSION) },
   plugins: [react(), tailwindcss(), preloadFont(), precacheManifest()],
   build: {
     target: 'es2020',

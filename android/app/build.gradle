@@ -9,14 +9,14 @@ if (keystorePropsFile.exists()) {
 }
 
 android {
-    namespace = "com.waalid.rootine"
+    namespace = "com.ibedes.rootine"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.waalid.rootine"
+        applicationId "com.ibedes.rootine"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 3
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

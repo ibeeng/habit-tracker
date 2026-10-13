@@ -12,6 +12,7 @@ import { StatsView } from './components/stats/StatsView'
 import { JournalView } from './components/journal/JournalView'
 import { LoginScreen } from './components/auth/LoginScreen'
 import { SyncModal } from './components/sync/SyncModal'
+import { UpdateBanner } from './components/update/UpdateBanner'
 import { useHabits } from './store/useHabits'
 import { useAuth } from './store/auth'
 
@@ -176,6 +177,8 @@ export default function App() {
       </footer>
 
       <BottomNav />
+      {/* passive update notice — appears only when the server has something newer */}
+      <UpdateBanner />
       {openForm && <HabitForm />}
       {journalHabit && <JournalSheet key={journalHabit.id} habit={journalHabit} onClose={closeJournal} />}
       <SyncModal />

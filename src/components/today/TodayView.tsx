@@ -57,7 +57,7 @@ export function TodayView() {
           </p>
           <pre className="mt-4 text-[12px] sm:text-[12px] text-muted leading-tight overflow-x-auto max-w-full">{`
                  _   _
- _ __ ___   ___ | |_(_)_ __   ___   version 1.1.0
+ _ __ ___   ___ | |_(_)_ __   ___   version ${__APP_VERSION__}
 | '__/ _ \\ / _ \\| __| | '_ \\ / _ \\
 | | | (_) | (_) | |_| | | | |  __/
 |_|  \\___/ \\___/ \\__|_|_| |_|\\___|
