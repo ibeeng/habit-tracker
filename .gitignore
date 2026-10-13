@@ -21,3 +21,8 @@ tsconfig.tsbuildinfo
 
 # OTA publish staging (zip + manifest lokal)
 ota-out/
+
+# bot QRIS — config & gambar jangan masuk repo
+bot/.env
+bot/qris.png
+__pycache__/
