@@ -27,10 +27,25 @@ export default {
   },
 };
 
-function caption(env) {
-  let t =
-    'Halo! Ini cara dukung Rootine 👇\n\n' +
-    'Rp49.000 sekali — atau seikhlasnya, nggak wajib.\n';
+function idr(n) {
+  return 'Rp' + Math.round(n).toLocaleString('id-ID');
+}
+
+// payload deep link: amt-49000 → 49000 (batas wajar: 1rb–100jt)
+function parseAmount(payload) {
+  const m = /^amt-(\d{1,9})$/.exec(payload || '');
+  if (!m) return null;
+  const n = parseInt(m[1], 10);
+  return n >= 1000 && n <= 100_000_000 ? n : null;
+}
+
+function caption(env, amount) {
+  let t = 'Halo! Ini cara dukung Rootine 👇\n\n';
+  if (amount) {
+    t += `Nominal pilihanmu: ${idr(amount)}\nMasukkan angka itu waktu scan/transfer, atau seikhlasnya.\n`;
+  } else {
+    t += 'Rp10.000 ke atas — seikhlasnya, nggak wajib.\n';
+  }
   if (env.PHOTO_URL) {
     t += '\nScan QRIS di atas pakai app bank / e-wallet apa aja (GoPay, OVO, DANA...).';
   } else {
@@ -41,8 +56,8 @@ function caption(env) {
   return t;
 }
 
-async function sendPay(env, chatId) {
-  const cap = caption(env);
+async function sendPay(env, chatId, amount) {
+  const cap = caption(env, amount);
   if (env.PHOTO_URL) {
     const r = await api(env, 'sendPhoto', {
       chat_id: chatId,
@@ -61,8 +76,12 @@ async function handle(update, env) {
   const chatId = msg.chat.id;
   const text = (msg.text || '').trim();
   try {
-    if (/^\/(start|qris|bayar|pay|donasi|dukung)(\s|$)/.test(text)) {
-      await sendPay(env, chatId);
+    const start = /^\/start(?:\s+(\S+))?/.exec(text);
+    if (start) {
+      // deep link dari landing: /start amt-49000 → tampilin nominalnya
+      await sendPay(env, chatId, parseAmount(start[1]));
+    } else if (/^\/(qris|bayar|pay|donasi|dukung)(\s|$)/.test(text)) {
+      await sendPay(env, chatId, null);
     } else if (/^\/(help|bantuan)(\s|$)/.test(text)) {
       await api(env, 'sendMessage', {
         chat_id: chatId,
@@ -75,7 +94,7 @@ async function handle(update, env) {
       });
     } else {
       // pesan bebas ("mau bayar", dll) — langsung kirim cara bayar
-      await sendPay(env, chatId);
+      await sendPay(env, chatId, null);
     }
   } catch (e) {
     console.error('handle error:', e);
