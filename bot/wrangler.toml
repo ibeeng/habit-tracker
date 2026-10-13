@@ -1,0 +1,7 @@
+name = "rootine-bot"
+main = "worker.js"
+compatibility_date = "2026-10-13"
+
+[vars]
+BANK_TEXT = "CIMB Niaga a.n. Bella Mujia — 762672725100"
+# PHOTO_URL = "https://ibeeng.github.io/rootine/qris.png"  # isi setelah gambar QRIS ready
